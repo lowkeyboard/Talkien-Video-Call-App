@@ -1,15 +1,15 @@
 
 
-final class MovieListPresenter: MovieListPresenterProtocol {
+final class MainScreenPresenter: MainScreenPresenterProtocol {
     
-    private unowned let view: MovieListViewProtocol
-//    private let interactor: MovieListInteractorProtocol
-    private let router: MovieListRouterProtocol
+    private unowned let view: MainScreenViewProtocol
+//    private let interactor: MainScreenInteractorProtocol
+    private let router: MainScreenRouterProtocol
     
     
-    init(view: MovieListViewProtocol,
-//         interactor: MovieListInteractorProtocol,
-         router: MovieListRouterProtocol) {
+    init(view: MainScreenViewProtocol,
+//         interactor: MainScreenInteractorProtocol,
+         router: MainScreenRouterProtocol) {
         self.view = view
 //        self.interactor = interactor
         self.router = router
@@ -29,9 +29,9 @@ final class MovieListPresenter: MovieListPresenterProtocol {
     }
 }
 
-extension MovieListPresenter: MovieListInteractorDelegate {
+extension MainScreenPresenter: MainScreenInteractorDelegate {
     
-    func handleOutput(_ output: MovieListInteractorOutput) {
+    func handleOutput(_ output: MainScreenInteractorOutput) {
         switch output {
         case .setLoading(let isLoading):
             view.handleOutput(.setLoading(isLoading))

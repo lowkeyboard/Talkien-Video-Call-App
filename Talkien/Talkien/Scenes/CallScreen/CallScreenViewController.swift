@@ -2,9 +2,9 @@
 
 import UIKit
 
-final class MovieDetailViewController: UIViewController, MovieDetailViewProtocol {
+final class CallScreenViewController: UIViewController, CallScreenViewProtocol {
     
-    var presenter: MovieDetailPresenterProtocol!
+    var presenter: CallScreenPresenterProtocol!
     
     @IBOutlet private weak var movieTitleLabel: UILabel!
     @IBOutlet private weak var artistNameLabel: UILabel!

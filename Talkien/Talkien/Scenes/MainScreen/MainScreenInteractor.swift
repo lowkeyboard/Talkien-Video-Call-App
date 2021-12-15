@@ -4,9 +4,9 @@
 
 
 
-final class MovieListInteractor: MovieListInteractorProtocol {
+final class MainScreenInteractor: MainScreenInteractorProtocol {
     
-    weak var delegate: MovieListInteractorDelegate?
+    weak var delegate: MainScreenInteractorDelegate?
     
 
     
@@ -17,6 +17,6 @@ final class MovieListInteractor: MovieListInteractorProtocol {
     
     func selectMovie(at index: Int) {
 //        let movie = movies[index]
-//        delegate?.handleOutput(.showMovieDetail(movie))
+//        delegate?.handleOutput(.showCallScreen(movie))
     }
 }

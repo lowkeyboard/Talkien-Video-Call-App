@@ -2,12 +2,12 @@
 
 import UIKit
 
-final class MovieListViewController: UIViewController, MovieListViewProtocol {
+final class MainScreenViewController: UIViewController, MainScreenViewProtocol {
     
     @IBOutlet private weak var tableView: UITableView!
     
     private var movies: [MoviePresentation] = []
-    var presenter: MovieListPresenterProtocol!
+    var presenter: MainScreenPresenterProtocol!
     
     @IBOutlet weak var button: UIButton!
     
@@ -26,7 +26,7 @@ final class MovieListViewController: UIViewController, MovieListViewProtocol {
     
     
     
-    func handleOutput(_ output: MovieListPresenterOutput) {
+    func handleOutput(_ output: MainScreenPresenterOutput) {
         switch output {
         case .updateTitle(let title):
             self.title = title
