@@ -8,6 +8,8 @@ target 'Talkien' do
   # Pods for Talkien
 
     pod 'GoogleWebRTC'
+    pod 'Firebase'
+
 end
 
 

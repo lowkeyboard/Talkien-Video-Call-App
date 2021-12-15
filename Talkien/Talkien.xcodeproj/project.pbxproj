@@ -29,6 +29,7 @@
 		36C25DE821B45E1200A30C1B /* MainScreenPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C25DE721B45E1200A30C1B /* MainScreenPresenter.swift */; };
 		36C25DEA21B45E2300A30C1B /* MainScreenRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C25DE921B45E2300A30C1B /* MainScreenRouter.swift */; };
 		97BE88A8589DEC10028C325D /* Pods_Talkien.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A733D5B597912379C279BA3 /* Pods_Talkien.framework */; };
+		A2350613276A9C22001DC401 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A2350612276A9C22001DC401 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -70,6 +71,7 @@
 		62A2A67721A9EE7E007F821B /* MovieDetailPresentation+API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MovieDetailPresentation+API.swift"; sourceTree = "<group>"; };
 		8A733D5B597912379C279BA3 /* Pods_Talkien.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Talkien.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		98D3E586CFD2E5FA97CBFA7B /* Pods-Talkien.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Talkien.debug.xcconfig"; path = "Target Support Files/Pods-Talkien/Pods-Talkien.debug.xcconfig"; sourceTree = "<group>"; };
+		A2350612276A9C22001DC401 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A6303375AA5C56A1D5FD6FD7 /* Pods-Talkien.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Talkien.release.xcconfig"; path = "Target Support Files/Pods-Talkien/Pods-Talkien.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -128,6 +130,7 @@
 			children = (
 				36C25D6021B2B7B300A30C1B /* LaunchScreen.storyboard */,
 				36C25D6321B2B7B300A30C1B /* Info.plist */,
+				A2350612276A9C22001DC401 /* GoogleService-Info.plist */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -240,6 +243,8 @@
 			dependencies = (
 			);
 			name = Talkien;
+			packageProductDependencies = (
+			);
 			productName = MovieBoxVIPER;
 			productReference = 36C25D5521B2B7B300A30C1B /* Talkien.app */;
 			productType = "com.apple.product-type.application";
@@ -285,6 +290,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2350613276A9C22001DC401 /* GoogleService-Info.plist in Resources */,
 				36C25DDF21B45DDA00A30C1B /* CallScreen.storyboard in Resources */,
 				36C25D9421B2BB0500A30C1B /* MainScreen.storyboard in Resources */,
 				36C25D6221B2B7B300A30C1B /* LaunchScreen.storyboard in Resources */,
