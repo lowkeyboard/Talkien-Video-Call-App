@@ -28,6 +28,7 @@
 		36C25DE621B45E0C00A30C1B /* MovieListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C25DE521B45E0C00A30C1B /* MovieListInteractor.swift */; };
 		36C25DE821B45E1200A30C1B /* MovieListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C25DE721B45E1200A30C1B /* MovieListPresenter.swift */; };
 		36C25DEA21B45E2300A30C1B /* MovieListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C25DE921B45E2300A30C1B /* MovieListRouter.swift */; };
+		97BE88A8589DEC10028C325D /* Pods_Talkien.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A733D5B597912379C279BA3 /* Pods_Talkien.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -46,7 +47,7 @@
 /* Begin PBXFileReference section */
 		360703E221A1F7BA00B92E5C /* MoviePresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviePresentation.swift; sourceTree = "<group>"; };
 		360703F521A1FB8600B92E5C /* MovieDetailPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailPresentation.swift; sourceTree = "<group>"; };
-		36C25D5521B2B7B300A30C1B /* MovieBoxVIPER.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieBoxVIPER.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		36C25D5521B2B7B300A30C1B /* TalkienVIPER.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TalkienVIPER.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		36C25D5721B2B7B300A30C1B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		36C25D5E21B2B7B300A30C1B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		36C25D6121B2B7B300A30C1B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -67,6 +68,9 @@
 		36C25DE921B45E2300A30C1B /* MovieListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListRouter.swift; sourceTree = "<group>"; };
 		62A2A67421A9EE5C007F821B /* MoviePresentation+API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MoviePresentation+API.swift"; sourceTree = "<group>"; };
 		62A2A67721A9EE7E007F821B /* MovieDetailPresentation+API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MovieDetailPresentation+API.swift"; sourceTree = "<group>"; };
+		8A733D5B597912379C279BA3 /* Pods_Talkien.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Talkien.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		98D3E586CFD2E5FA97CBFA7B /* Pods-Talkien.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Talkien.debug.xcconfig"; path = "Target Support Files/Pods-MovieBoxVIPER/Pods-Talkien.debug.xcconfig"; sourceTree = "<group>"; };
+		A6303375AA5C56A1D5FD6FD7 /* Pods-Talkien.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Talkien.release.xcconfig"; path = "Target Support Files/Pods-MovieBoxVIPER/Pods-Talkien.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +78,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				97BE88A8589DEC10028C325D /* Pods_Talkien.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,15 +89,17 @@
 			isa = PBXGroup;
 			children = (
 				3670D55C21A1E87B00474AF7 /* Commons */,
-				36C25D5621B2B7B300A30C1B /* MovieBoxVIPER */,
+				36C25D5621B2B7B300A30C1B /* Talkien */,
 				3635F0222184FD3100D9215B /* Products */,
+				D0ABEE0D0AB6256547E6BB76 /* Pods */,
+				6012D1CD0B317A80828205B0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
 		3635F0222184FD3100D9215B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				36C25D5521B2B7B300A30C1B /* MovieBoxVIPER.app */,
+				36C25D5521B2B7B300A30C1B /* TalkienVIPER.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -105,7 +112,7 @@
 			path = Commons;
 			sourceTree = "<group>";
 		};
-		36C25D5621B2B7B300A30C1B /* MovieBoxVIPER */ = {
+		36C25D5621B2B7B300A30C1B /* Talkien */ = {
 			isa = PBXGroup;
 			children = (
 				36C25D7921B2B81B00A30C1B /* App */,
@@ -113,7 +120,7 @@
 				36C25D7821B2B80200A30C1B /* Resources */,
 				36C25D7721B2B7E600A30C1B /* Supporting Files */,
 			);
-			path = MovieBoxVIPER;
+			path = Talkien;
 			sourceTree = "<group>";
 		};
 		36C25D7721B2B7E600A30C1B /* Supporting Files */ = {
@@ -178,6 +185,14 @@
 			path = MovieDetail;
 			sourceTree = "<group>";
 		};
+		6012D1CD0B317A80828205B0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8A733D5B597912379C279BA3 /* Pods_Talkien.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		62A2A67321A9EE47007F821B /* Presentations */ = {
 			isa = PBXGroup;
 			children = (
@@ -197,25 +212,36 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		D0ABEE0D0AB6256547E6BB76 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				98D3E586CFD2E5FA97CBFA7B /* Pods-Talkien.debug.xcconfig */,
+				A6303375AA5C56A1D5FD6FD7 /* Pods-Talkien.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		36C25D5421B2B7B300A30C1B /* MovieBoxVIPER */ = {
+		36C25D5421B2B7B300A30C1B /* TalkienVIPER */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 36C25D7521B2B7B400A30C1B /* Build configuration list for PBXNativeTarget "MovieBoxVIPER" */;
+			buildConfigurationList = 36C25D7521B2B7B400A30C1B /* Build configuration list for PBXNativeTarget "TalkienVIPER" */;
 			buildPhases = (
+				495126066F625E84512C6427 /* [CP] Check Pods Manifest.lock */,
 				36C25D5121B2B7B300A30C1B /* Sources */,
 				36C25D5221B2B7B300A30C1B /* Frameworks */,
 				36C25D5321B2B7B300A30C1B /* Resources */,
 				36C25D8621B2B91600A30C1B /* Embed Frameworks */,
+				8151A5170556B788A13E537C /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = MovieBoxVIPER;
+			name = TalkienVIPER;
 			productName = MovieBoxVIPER;
-			productReference = 36C25D5521B2B7B300A30C1B /* MovieBoxVIPER.app */;
+			productReference = 36C25D5521B2B7B300A30C1B /* TalkienVIPER.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -233,7 +259,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 3635F01C2184FD3100D9215B /* Build configuration list for PBXProject "MovieBox" */;
+			buildConfigurationList = 3635F01C2184FD3100D9215B /* Build configuration list for PBXProject "Talkien" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -249,7 +275,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				36C25D5421B2B7B300A30C1B /* MovieBoxVIPER */,
+				36C25D5421B2B7B300A30C1B /* TalkienVIPER */,
 			);
 		};
 /* End PBXProject section */
@@ -267,6 +293,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		495126066F625E84512C6427 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MovieBoxVIPER-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8151A5170556B788A13E537C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MovieBoxVIPER/Pods-MovieBoxVIPER-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MovieBoxVIPER/Pods-MovieBoxVIPER-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MovieBoxVIPER/Pods-MovieBoxVIPER-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		36C25D5121B2B7B300A30C1B /* Sources */ = {
@@ -425,6 +493,7 @@
 		};
 		36C25D6F21B2B7B400A30C1B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 98D3E586CFD2E5FA97CBFA7B /* Pods-Talkien.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -436,7 +505,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.latenight.MovieBoxVIPER;
+				PRODUCT_BUNDLE_IDENTIFIER = com.latenight.Talkien;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -445,6 +514,7 @@
 		};
 		36C25D7021B2B7B400A30C1B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A6303375AA5C56A1D5FD6FD7 /* Pods-Talkien.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -456,7 +526,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.latenight.MovieBoxVIPER;
+				PRODUCT_BUNDLE_IDENTIFIER = com.latenight.Talkien;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -466,7 +536,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		3635F01C2184FD3100D9215B /* Build configuration list for PBXProject "MovieBox" */ = {
+		3635F01C2184FD3100D9215B /* Build configuration list for PBXProject "Talkien" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3635F0312184FD3300D9215B /* Debug */,
@@ -475,7 +545,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		36C25D7521B2B7B400A30C1B /* Build configuration list for PBXNativeTarget "MovieBoxVIPER" */ = {
+		36C25D7521B2B7B400A30C1B /* Build configuration list for PBXNativeTarget "TalkienVIPER" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				36C25D6F21B2B7B400A30C1B /* Debug */,
