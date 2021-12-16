@@ -18,11 +18,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Acy-Ip-SV4">
-                                <rect key="frame" x="94" y="205" width="187" height="89"/>
+                                <rect key="frame" x="94" y="127" width="187" height="59"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="placeholderTextColor"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Create Call Offer">
+                                <buttonConfiguration key="configuration" style="plain" title="Create a New Room">
                                     <fontDescription key="titleFontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="25"/>
                                     <color key="baseForegroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
@@ -30,12 +30,42 @@
                                     <action selector="clickedButton:" destination="EWH-Yi-hEW" eventType="touchUpInside" id="JF7-o5-wmI"/>
                                 </connections>
                             </button>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UTk-QZ-4BJ">
+                                <rect key="frame" x="94" y="355" width="187" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UZy-eJ-Kuf">
+                                <rect key="frame" x="94" y="230" width="213" height="41"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="start - RTCPeerConnection"/>
+                                <connections>
+                                    <action selector="clickedrtcpeerbutton:" destination="EWH-Yi-hEW" eventType="touchUpInside" id="enx-c0-pqS"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AZU-O0-7nb">
+                                <rect key="frame" x="94" y="420" width="187" height="33"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.1647058874" green="0.1843137443" blue="0.24313727020000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Join a Room">
+                                    <fontDescription key="titleFontDescription" name="Papyrus" family="Papyrus" pointSize="20"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="clickedJoinButton:" destination="EWH-Yi-hEW" eventType="touchUpInside" id="HBe-1M-kBR"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="yUl-IW-5cI"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                     <connections>
+                        <outlet property="JoinButton" destination="AZU-O0-7nb" id="Hjh-md-PBq"/>
                         <outlet property="button" destination="Acy-Ip-SV4" id="IJ8-la-DUn"/>
+                        <outlet property="rtcpeerconnectionButton" destination="UZy-eJ-Kuf" id="ZkQ-8d-EYO"/>
+                        <outlet property="textField" destination="UTk-QZ-4BJ" id="1Jw-JU-pTv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="alX-Nc-feV" userLabel="First Responder" sceneMemberID="firstResponder"/>

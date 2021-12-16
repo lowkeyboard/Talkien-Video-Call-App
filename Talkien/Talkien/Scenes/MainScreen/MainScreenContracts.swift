@@ -6,7 +6,7 @@ protocol MainScreenInteractorProtocol: AnyObject {
     func selectMovie(at index: Int)
     func startRTCPeerConn()
     func giveMicPermission() //hardware permissions icin
-
+     
 }
 
 enum MainScreenInteractorOutput: Equatable {
@@ -26,8 +26,9 @@ protocol MainScreenPresenterProtocol: AnyObject {
 }
 
 enum MainScreenPresenterOutput: Equatable {
-    case updateTitle(String)
-    case setLoading(Bool)
+    case granted
+    case denied
+    case undetermined
 }
 
 // MARK: - View

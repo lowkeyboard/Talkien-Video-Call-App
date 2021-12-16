@@ -9,6 +9,7 @@ target 'Talkien' do
 
     pod 'GoogleWebRTC'
     pod 'Firebase'
+    pod 'SwiftyJSON'
 
 end
 
