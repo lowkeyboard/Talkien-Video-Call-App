@@ -6,6 +6,7 @@ protocol MainScreenInteractorProtocol: AnyObject {
     func selectMovie(at index: Int)
     func startRTCPeerConn()
     func giveMicPermission() //hardware permissions icin
+    func loadInteractor()
      
 }
 

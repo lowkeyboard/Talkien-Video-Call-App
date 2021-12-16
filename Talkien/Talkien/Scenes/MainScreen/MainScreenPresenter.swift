@@ -7,6 +7,7 @@ final class MainScreenPresenter: MainScreenPresenterProtocol {
     
     
     func createRTCPeerConnection() {
+        interactor.loadInteractor()
         interactor.startRTCPeerConn()
     }
     

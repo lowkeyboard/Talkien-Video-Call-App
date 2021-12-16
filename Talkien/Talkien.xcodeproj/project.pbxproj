@@ -505,7 +505,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 98D3E586CFD2E5FA97CBFA7B /* Pods-Talkien.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
@@ -526,7 +525,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A6303375AA5C56A1D5FD6FD7 /* Pods-Talkien.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
