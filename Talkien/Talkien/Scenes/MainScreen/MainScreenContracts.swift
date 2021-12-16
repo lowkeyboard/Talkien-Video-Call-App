@@ -1,26 +1,28 @@
 
 // MARK: - Interactor
 
-protocol MainScreenInteractorProtocol: class {
+protocol MainScreenInteractorProtocol: AnyObject {
     var delegate: MainScreenInteractorDelegate? { get set }
-    func load()
     func selectMovie(at index: Int)
+    func startRTCPeerConn()
+    func giveMicPermission() //hardware permissions icin
+
 }
 
 enum MainScreenInteractorOutput: Equatable {
-    case setLoading(Bool)
-
+    case isConnected
 }
 
-protocol MainScreenInteractorDelegate: class {
-    func handleOutput(_ output: MainScreenInteractorOutput)
+protocol MainScreenInteractorDelegate: AnyObject {
+//    func handleOutput(_ output: MainScreenInteractorOutput)
 }
 
 // MARK: - Presenter
 
-protocol MainScreenPresenterProtocol: class {
-    func load()
-    func selectMovie(at index: Int)
+protocol MainScreenPresenterProtocol: AnyObject {
+    func routeToCallScreen()
+    func getMicPermission() //hardware permissions icin
+    func createRTCPeerConnection()
 }
 
 enum MainScreenPresenterOutput: Equatable {
@@ -30,8 +32,9 @@ enum MainScreenPresenterOutput: Equatable {
 
 // MARK: - View
 
-protocol MainScreenViewProtocol: class {
+protocol MainScreenViewProtocol: AnyObject {
     func handleOutput(_ output: MainScreenPresenterOutput)
+
 }
 
 // MARK: - Router
@@ -40,6 +43,6 @@ enum MainScreenRoute: Equatable {
     case detail
 }
 
-protocol MainScreenRouterProtocol: class {
+protocol MainScreenRouterProtocol: AnyObject {
     func navigate(to route: MainScreenRoute)
 }

@@ -7,9 +7,9 @@ final class MainScreenBuilder {
         let storyboard = UIStoryboard(name: "MainScreen", bundle: nil)
         let view = storyboard.instantiateViewController(withIdentifier: "MainScreenViewController") as! MainScreenViewController
         let router = MainScreenRouter(view: view)
-//        let interactor = MainScreenInteractor(service: app.service)
+        let interactor = MainScreenInteractor()
         let presenter = MainScreenPresenter(view: view,
-//                                           interactor: interactor,
+                                           interactor: interactor,
                                            router: router)
         view.presenter = presenter
         return view

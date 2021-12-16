@@ -1,40 +1,50 @@
 
 
 final class MainScreenPresenter: MainScreenPresenterProtocol {
+    func getMicPermission() {
+        interactor.giveMicPermission()
+    }
+    
+    
+    func createRTCPeerConnection() {
+        
+    }
+    
     
     private unowned let view: MainScreenViewProtocol
-//    private let interactor: MainScreenInteractorProtocol
+    private let interactor: MainScreenInteractorProtocol
     private let router: MainScreenRouterProtocol
     
     
     init(view: MainScreenViewProtocol,
-//         interactor: MainScreenInteractorProtocol,
+         interactor: MainScreenInteractorProtocol,
          router: MainScreenRouterProtocol) {
         self.view = view
-//        self.interactor = interactor
+        self.interactor = interactor
         self.router = router
         
         
-//        self.interactor.delegate = self
+        self.interactor.delegate = self
     }
     
-    func load() {
-        view.handleOutput(.updateTitle("Movies"))
-//        interactor.load()
-    }
     
-    func selectMovie(at index: Int) {
+    func routeToCallScreen() {
 //        interactor.selectMovie(at: index)
         router.navigate(to: .detail)
+        
     }
+    
+    
+    
+    
 }
 
 extension MainScreenPresenter: MainScreenInteractorDelegate {
-    
-    func handleOutput(_ output: MainScreenInteractorOutput) {
-        switch output {
-        case .setLoading(let isLoading):
-            view.handleOutput(.setLoading(isLoading))
-    }
-}
+//
+//    func handleOutput(_ output: MainScreenInteractorOutput) {
+//        switch output {
+//        case .setLoading(let isLoading):
+//            view.handleOutput(.setLoading(isLoading))
+//    }
+//}
 }

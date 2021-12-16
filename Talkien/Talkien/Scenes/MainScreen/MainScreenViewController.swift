@@ -14,12 +14,12 @@ final class MainScreenViewController: UIViewController, MainScreenViewProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        presenter.load()
+        presenter.getMicPermission()
     }
     
     @IBAction func clickedButton(_ sender: Any) {
         
-        presenter.selectMovie(at: 0)
+        presenter.routeToCallScreen()
 
     }
     
