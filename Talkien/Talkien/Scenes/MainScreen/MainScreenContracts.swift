@@ -7,7 +7,7 @@ protocol MainScreenInteractorProtocol: AnyObject {
     func startRTCPeerConn()
     func giveMicPermission() //hardware permissions icin
     func loadInteractor()
-     
+    func makeOffer()
 }
 
 enum MainScreenInteractorOutput: Equatable {

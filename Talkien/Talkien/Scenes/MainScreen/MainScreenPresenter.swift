@@ -8,7 +8,12 @@ final class MainScreenPresenter: MainScreenPresenterProtocol {
     
     func createRTCPeerConnection() {
         interactor.loadInteractor()
-        interactor.startRTCPeerConn()
+        print("interactor load done")
+        connectToUser()
+    }
+    
+    func connectToUser() {
+        interactor.makeOffer()
     }
     
     

@@ -6,12 +6,16 @@ import WebRTC
 
 @UIApplicationMain
 final class AppDelegate: UIResponder, UIApplicationDelegate {
-    
+
+    var callManager: CallManager?
+
+
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         //init firebase here:
         FirebaseApp.configure()
         RTCInitializeSSL()
+        self.callManager = CallManager()
 
         
         //navigating here: 

@@ -167,7 +167,7 @@ final class MainScreenInteractor: NSObject,  MainScreenInteractorProtocol {
     
     func makeOffer() {
         
-        peerConnection = prepareNewConnection() // PeerConnectionを生成
+        peerConnection = prepareNewConnection() 
         
         let constraints = RTCMediaConstraints(mandatoryConstraints: ["OfferToReceiveAudio": "true", "OfferToReceiveVideo": "false"],
                                               optionalConstraints: nil)
@@ -207,7 +207,7 @@ final class MainScreenInteractor: NSObject,  MainScreenInteractorProtocol {
                 if error != nil { return }
                 print("setLocalDescription() succsess")
                 
-                self.sendSDP(answer!) // 相手に送る
+                self.sendSDP(answer!)
             }
             self.peerConnection.setLocalDescription(answer!, completionHandler: setLocalDescCompletion)
         }
@@ -219,13 +219,13 @@ final class MainScreenInteractor: NSObject,  MainScreenInteractorProtocol {
     func sendSDP(_ desc: RTCSessionDescription) {
         print("---sending sdp ---")
         
-        let jsonSdp: JSON = [ // JSONを生成
-            "sdp": desc.sdp, // SDP本体
+        let jsonSdp: JSON = [
+            "sdp": desc.sdp,
             "type": RTCSessionDescription.string(for: desc.type) // offer か answer か
         ]
         let message = jsonSdp.dictionaryObject
 
-        self.offerSignalRef?.setValue(message) { (error, ref) in // 相手に送信
+        self.offerSignalRef?.setValue(message) { (error, ref) in
             if error != nil {
                 print("Dang sendIceCandidate -->> ", error.debugDescription)
             }
