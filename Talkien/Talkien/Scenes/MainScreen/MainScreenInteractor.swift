@@ -20,13 +20,11 @@ final class MainScreenInteractor: NSObject,  MainScreenInteractorProtocol {
         switch AVAudioSession.sharedInstance().recordPermission {
         case .granted:
             print("Permission granted")
-//                getusermedia
         case .denied:
             print("Permission denied")
         case .undetermined:
             print("Request permission here")
             AVAudioSession.sharedInstance().requestRecordPermission({ granted in
-                // Handle granted
             })
         @unknown default:
             print("Unknown case")
@@ -44,8 +42,8 @@ final class MainScreenInteractor: NSObject,  MainScreenInteractorProtocol {
     var observerSignalRef: DatabaseReference? = nil
     var offerSignalRef: DatabaseReference? = nil
     
-    var sender: Int = 1
-    var receiver: Int = 2
+    var sender: Int = 2
+    var receiver: Int = 1
 
     
     
@@ -59,7 +57,6 @@ final class MainScreenInteractor: NSObject,  MainScreenInteractorProtocol {
     
 
     func loadInteractor() {
-        // RTCPeerConnectionFactory
         self.peerConnectionFactory = RTCPeerConnectionFactory()
         
         self.startRTCPeerConn()
@@ -79,7 +76,7 @@ final class MainScreenInteractor: NSObject,  MainScreenInteractorProtocol {
     }
     
     
-    //retrieving
+    //retrieving from database snapsohot
     func observerSignal() {
         
         self.observerSignalRef?.observe(.value, with: { [weak self] (snapshot) in
@@ -144,8 +141,8 @@ final class MainScreenInteractor: NSObject,  MainScreenInteractorProtocol {
 
         let peerConnection = peerConnectionFactory.peerConnection(with: configuration, constraints: peerConnectionConstraints, delegate: self)
         
-        let localAudioTrack = peerConnectionFactory.audioTrack(with: audioSource!, trackId: "ARDAMSa0")
-        let audioSender = peerConnection.sender(withKind: kRTCMediaStreamTrackKindAudio, streamId: "ARDAMS")
+        let localAudioTrack = peerConnectionFactory.audioTrack(with: audioSource!, trackId: "LOCAL_AUDIO_TRACK")
+        let audioSender = peerConnection.sender(withKind: kRTCMediaStreamTrackKindAudio, streamId: "REMOTE_AUDIO_TRACK")
         audioSender.track = localAudioTrack
         
    
@@ -153,17 +150,7 @@ final class MainScreenInteractor: NSObject,  MainScreenInteractorProtocol {
         return peerConnection
     }
     
-  
-//    @IBAction func connectButtonAction(_ sender: Any) {
-//        // Connectボタンを押した時
-//        if peerConnection == nil {
-//            print("make Offer")
-//            makeOffer()
-//        } else {
-//            print("peer already exist.")
-//        }
-//    }
-    
+
     
     func makeOffer() {
         
@@ -212,7 +199,7 @@ final class MainScreenInteractor: NSObject,  MainScreenInteractorProtocol {
             self.peerConnection.setLocalDescription(answer!, completionHandler: setLocalDescCompletion)
         }
         
-        self.peerConnection.answer(for: constraints, completionHandler: answerCompletion) // Answerを生成
+        self.peerConnection.answer(for: constraints, completionHandler: answerCompletion)
     }
     
     
@@ -221,7 +208,7 @@ final class MainScreenInteractor: NSObject,  MainScreenInteractorProtocol {
         
         let jsonSdp: JSON = [
             "sdp": desc.sdp,
-            "type": RTCSessionDescription.string(for: desc.type) // offer か answer か
+            "type": RTCSessionDescription.string(for: desc.type)
         ]
         let message = jsonSdp.dictionaryObject
 
@@ -238,13 +225,12 @@ final class MainScreenInteractor: NSObject,  MainScreenInteractorProtocol {
             print("peerConnection alreay exist!")
         }
         
-//        APP_DELGATE.callManager?.receiveCall()
         
-        peerConnection = prepareNewConnection() // PeerConnectionを生成する
+        peerConnection = prepareNewConnection()
         self.peerConnection.setRemoteDescription(offer, completionHandler: {(error: Error?) in
             if error == nil {
-                print("setRemoteDescription(offer) succsess")
-                self.makeAnswer() // setRemoteDescriptionが成功したらAnswerを作る
+                print("setRemoteDescription(offer) success")
+                self.makeAnswer()
             } else {
                 print("setRemoteDescription(offer) ERROR: " + error.debugDescription)
             }
@@ -254,14 +240,14 @@ final class MainScreenInteractor: NSObject,  MainScreenInteractorProtocol {
     
     func setAnswer(_ answer: RTCSessionDescription) {
         if peerConnection == nil {
-            print("peerConnection NOT exist!")
+            print("peerConnection do not exist :(")
             return
         }
         
         self.peerConnection.setRemoteDescription(answer, completionHandler: {
             (error: Error?) in
             if error == nil {
-                print("setRemoteDescription(answer) succsess")
+                print("setRemoteDescription(answer) success")
             } else {
                 print("setRemoteDescription(answer) ERROR: " + error.debugDescription)
             }
@@ -278,11 +264,6 @@ final class MainScreenInteractor: NSObject,  MainScreenInteractorProtocol {
     }
     
     
-//    @IBAction func hangupButtonAction(_ sender: Any) {
-//
-//        hangUp() // HangUpボタンを押した時
-//    }
-//
     
     func hangUp() {
         if peerConnection != nil {
@@ -305,11 +286,6 @@ final class MainScreenInteractor: NSObject,  MainScreenInteractorProtocol {
     }
     
     
-//    @IBAction func closeButtonAction(_ sender: Any) {
-//        // Closeボタンを押した時
-//        hangUp()
-//        _ = self.navigationController?.popToRootViewController(animated: true)
-//    }
     
 }
 
@@ -320,7 +296,7 @@ final class MainScreenInteractor: NSObject,  MainScreenInteractorProtocol {
 extension MainScreenInteractor: RTCPeerConnectionDelegate {
 
     func peerConnection(_ peerConnection: RTCPeerConnection, didChange stateChanged: RTCSignalingState) {
-        print("\(#function): 接続情報交換の状況が変化した際に呼ばれます")
+        print("\(#function)")
     }
     
     
