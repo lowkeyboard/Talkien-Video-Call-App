@@ -4,8 +4,10 @@
 protocol MainScreenInteractorProtocol: AnyObject {
     var delegate: MainScreenInteractorDelegate? { get set }
     func selectMovie(at index: Int)
-    func startRTCPeerConn()
     func giveMicPermission() //hardware permissions icin
+    
+    //bunlar diger sayfanin interactoru olcak.
+    func startRTCPeerConn()
     func loadInteractor()
     func makeOffer()
 }
@@ -23,6 +25,8 @@ protocol MainScreenInteractorDelegate: AnyObject {
 protocol MainScreenPresenterProtocol: AnyObject {
     func routeToCallScreen()
     func getMicPermission() //hardware permissions icin
+    
+    //diger sayfa
     func createRTCPeerConnection()
 }
 

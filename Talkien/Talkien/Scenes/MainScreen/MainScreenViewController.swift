@@ -21,13 +21,8 @@ final class MainScreenViewController: UIViewController, MainScreenViewProtocol {
         presenter.getMicPermission()
     }
     
+    // Call Button.
     @IBAction func clickedButton(_ sender: Any) {
-        
-        presenter.routeToCallScreen()
-        
-    }
-    
-    @IBAction func clickedJoinButton(_ sender: Any) {
         if (textField.text != nil) {
             presenter.routeToCallScreen()
         } else {
@@ -41,6 +36,8 @@ final class MainScreenViewController: UIViewController, MainScreenViewProtocol {
             }
         }
     }
+    
+
     
     @IBAction func clickedrtcpeerbutton(_ sender: Any) {
         presenter.createRTCPeerConnection()
