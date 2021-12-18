@@ -20,5 +20,9 @@ final class CallScreenPresenter: CallScreenPresenterProtocol, CallScreenInteract
         interactor.sendOffer()
     }
     
+    func endCall() {
+        interactor.hangUp()
+    }
+    
     
 }

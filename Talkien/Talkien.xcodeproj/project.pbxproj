@@ -30,6 +30,7 @@
 		36C25DEA21B45E2300A30C1B /* MainScreenRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36C25DE921B45E2300A30C1B /* MainScreenRouter.swift */; };
 		97BE88A8589DEC10028C325D /* Pods_Talkien.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A733D5B597912379C279BA3 /* Pods_Talkien.framework */; };
 		A2350613276A9C22001DC401 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A2350612276A9C22001DC401 /* GoogleService-Info.plist */; };
+		A23A6AB9276E2EA6001AFD8E /* BottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23A6AB8276E2EA6001AFD8E /* BottomSheet.swift */; };
 		A24F7623276BB56700E6E8F2 /* CallScreenInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A24F7622276BB56700E6E8F2 /* CallScreenInteractor.swift */; };
 /* End PBXBuildFile section */
 
@@ -73,6 +74,7 @@
 		8A733D5B597912379C279BA3 /* Pods_Talkien.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Talkien.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		98D3E586CFD2E5FA97CBFA7B /* Pods-Talkien.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Talkien.debug.xcconfig"; path = "Target Support Files/Pods-Talkien/Pods-Talkien.debug.xcconfig"; sourceTree = "<group>"; };
 		A2350612276A9C22001DC401 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		A23A6AB8276E2EA6001AFD8E /* BottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheet.swift; sourceTree = "<group>"; };
 		A24F7622276BB56700E6E8F2 /* CallScreenInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallScreenInteractor.swift; sourceTree = "<group>"; };
 		A6303375AA5C56A1D5FD6FD7 /* Pods-Talkien.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Talkien.release.xcconfig"; path = "Target Support Files/Pods-Talkien/Pods-Talkien.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -187,6 +189,7 @@
 				36C25DD921B45DDA00A30C1B /* CallScreenContracts.swift */,
 				36C25DDB21B45DDA00A30C1B /* CallScreenPresenter.swift */,
 				A24F7622276BB56700E6E8F2 /* CallScreenInteractor.swift */,
+				A23A6AB8276E2EA6001AFD8E /* BottomSheet.swift */,
 			);
 			path = CallScreen;
 			sourceTree = "<group>";
@@ -363,6 +366,7 @@
 				36C25DEA21B45E2300A30C1B /* MainScreenRouter.swift in Sources */,
 				36C25D5821B2B7B300A30C1B /* AppDelegate.swift in Sources */,
 				36C25D9621B2BB0F00A30C1B /* MainScreenViewController.swift in Sources */,
+				A23A6AB9276E2EA6001AFD8E /* BottomSheet.swift in Sources */,
 				36C25DDE21B45DDA00A30C1B /* CallScreenBuilder.swift in Sources */,
 				36C25D8B21B2BA2800A30C1B /* MovieDetailPresentation.swift in Sources */,
 				36C25D8921B2BA2800A30C1B /* MovieDetailPresentation+API.swift in Sources */,
@@ -420,6 +424,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;

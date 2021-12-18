@@ -1,15 +1,16 @@
 
 
 import UIKit
+import WebRTC.RTCEAGLVideoView
+import WebRTC.RTCCameraPreviewView
 
 final class CallScreenViewController: UIViewController, CallScreenViewProtocol {
     
     
+    @IBOutlet weak var localVideoView: RTCCameraPreviewView!
+    @IBOutlet weak var remoteVideoView: RTCEAGLVideoView!
     
-    
-    
-    @IBOutlet weak var ExitCallButton: UIButton!
-    
+    @IBOutlet weak var ExitCallButton: UIButton! //rename
     @IBOutlet weak var SendOfferButton: UIButton!
     
     var presenter: CallScreenPresenterProtocol!
@@ -23,14 +24,30 @@ final class CallScreenViewController: UIViewController, CallScreenViewProtocol {
         
     }
     
+    //rename as  joincall
     @IBAction func ExitCallPressed(_ sender: Any) {
-        
+        presenter.endCall()
     }
     
     
     @IBAction func SendOfferPressed(_ sender: Any) {
         presenter.connectToUser()
-        print("lol")
+        
+        let vc = BottomSheetViewController()
+        if #available(iOS 15.0, *) {
+            if let sheet = vc.sheetPresentationController {
+                sheet.detents = [.medium(), .large()]
+                sheet.largestUndimmedDetentIdentifier = .medium
+                sheet.prefersScrollingExpandsWhenScrolledToEdge = true
+                sheet.prefersGrabberVisible = true
+                
+                
+            }
+        } else {
+            // Fallback on earlier versions
+        }
+        
+        self.present(vc, animated: true, completion: nil)
 
     }
     

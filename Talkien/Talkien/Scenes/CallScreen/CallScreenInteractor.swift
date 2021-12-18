@@ -18,12 +18,13 @@ class CallScreenInteractor: NSObject, CallScreenInteractorProtocol {
     var peerConnectionFactory: RTCPeerConnectionFactory! = nil
     var peerConnection: RTCPeerConnection! = nil
     var audioSource: RTCAudioSource?
-    
+    var videoSource: RTCCameraVideoCapturer?
+
     var observerSignalRef: DatabaseReference? = nil
     var offerSignalRef: DatabaseReference? = nil
     
-    var sender: Int = 2
-    var receiver: Int = 1
+    var sender: Int = 1
+    var receiver: Int = 2
 
     
     
@@ -102,11 +103,14 @@ class CallScreenInteractor: NSObject, CallScreenInteractorProtocol {
     
 
     
-    func startRTCPeerConn() {
+    func startRTCPeerConn() { //only audio
         let audioSourceConstraints = RTCMediaConstraints(mandatoryConstraints: nil, optionalConstraints: nil)
         audioSource = peerConnectionFactory.audioSource(with: audioSourceConstraints)
-        
+
     }
+    
+
+
     
     
     func prepareNewConnection() -> RTCPeerConnection {
@@ -125,6 +129,8 @@ class CallScreenInteractor: NSObject, CallScreenInteractorProtocol {
         let audioSender = peerConnection.sender(withKind: kRTCMediaStreamTrackKindAudio, streamId: "REMOTE_AUDIO_TRACK")
         audioSender.track = localAudioTrack
         
+
+        
    
         
         return peerConnection
@@ -136,7 +142,7 @@ class CallScreenInteractor: NSObject, CallScreenInteractorProtocol {
         
         peerConnection = prepareNewConnection()
         
-        let constraints = RTCMediaConstraints(mandatoryConstraints: ["OfferToReceiveAudio": "true", "OfferToReceiveVideo": "false"],
+        let constraints = RTCMediaConstraints(mandatoryConstraints: ["OfferToReceiveAudio": "true", "OfferToReceiveVideo": "true"],
                                               optionalConstraints: nil)
         let offerCompletion = { (offer: RTCSessionDescription?, error: Error?) in
             
@@ -354,4 +360,3 @@ extension CallScreenInteractor: RTCPeerConnectionDelegate {
     }
     
 }
-

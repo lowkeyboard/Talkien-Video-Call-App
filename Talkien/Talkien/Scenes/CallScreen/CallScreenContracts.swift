@@ -4,6 +4,7 @@
 protocol CallScreenPresenterProtocol {
     func load()
     func connectToUser()
+    func endCall()
 }
 
 enum CallScreenPresenterOutput: Equatable {
@@ -28,6 +29,7 @@ protocol CallScreenInteractorProtocol: AnyObject {
     func startRTCPeerConn()
     func loadInteractor()
     func sendOffer()
+    func hangUp()
 }
 
 enum CallScreenInteractorOutput: Equatable {
