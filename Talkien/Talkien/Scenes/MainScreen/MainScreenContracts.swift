@@ -6,10 +6,7 @@ protocol MainScreenInteractorProtocol: AnyObject {
     func selectMovie(at index: Int)
     func giveMicPermission() //hardware permissions icin
     
-    //bunlar diger sayfanin interactoru olcak.
-    func startRTCPeerConn()
-    func loadInteractor()
-    func makeOffer()
+
 }
 
 enum MainScreenInteractorOutput: Equatable {
@@ -26,8 +23,6 @@ protocol MainScreenPresenterProtocol: AnyObject {
     func routeToCallScreen()
     func getMicPermission() //hardware permissions icin
     
-    //diger sayfa
-    func createRTCPeerConnection()
 }
 
 enum MainScreenPresenterOutput: Equatable {

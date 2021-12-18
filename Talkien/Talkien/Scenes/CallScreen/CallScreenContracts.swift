@@ -1,12 +1,24 @@
 
+// MARK: - Presenter
 
 protocol CallScreenPresenterProtocol {
     func load()
+    func connectToUser()
 }
 
-protocol CallScreenViewProtocol: class {
+enum CallScreenPresenterOutput: Equatable {
+    case granted
+    case denied
+    case undetermined
+}
+
+// MARK: - View
+protocol CallScreenViewProtocol: AnyObject {
+    func handleOutput(_ output: CallScreenPresenterOutput)
 
 }
+
+// MARK: - Interactor
 
 protocol CallScreenInteractorProtocol: AnyObject {
     var delegate: CallScreenInteractorDelegate? { get set }
@@ -15,7 +27,7 @@ protocol CallScreenInteractorProtocol: AnyObject {
     //bunlar diger sayfanin interactoru olcak.
     func startRTCPeerConn()
     func loadInteractor()
-    func makeOffer()
+    func sendOffer()
 }
 
 enum CallScreenInteractorOutput: Equatable {

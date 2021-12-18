@@ -6,15 +6,6 @@ final class MainScreenPresenter: MainScreenPresenterProtocol {
     }
     
     
-    func createRTCPeerConnection() {
-        interactor.loadInteractor()
-        print("interactor load done")
-        connectToUser()
-    }
-    
-    func connectToUser() {
-        interactor.makeOffer()
-    }
     
     
     private unowned let view: MainScreenViewProtocol

@@ -52,22 +52,12 @@
                                     </button>
                                 </subviews>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UZy-eJ-Kuf">
-                                <rect key="frame" x="103" y="416" width="222" height="37"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="start - RTCPeerConnection"/>
-                                <connections>
-                                    <action selector="clickedrtcpeerbutton:" destination="EWH-Yi-hEW" eventType="touchUpInside" id="enx-c0-pqS"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="yUl-IW-5cI"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                     <connections>
                         <outlet property="button" destination="Acy-Ip-SV4" id="IJ8-la-DUn"/>
-                        <outlet property="rtcpeerconnectionButton" destination="UZy-eJ-Kuf" id="ZkQ-8d-EYO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="alX-Nc-feV" userLabel="First Responder" sceneMemberID="firstResponder"/>
