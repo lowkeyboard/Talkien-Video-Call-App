@@ -10,10 +10,6 @@ final class MainScreenViewController: UIViewController, MainScreenViewProtocol {
     var presenter: MainScreenPresenterProtocol!
     
     @IBOutlet weak var button: UIButton!
-    
-    @IBOutlet weak var rtcpeerconnectionButton: UIButton!
-    
-    
     @IBOutlet weak var nameText: UITextField!
     @IBOutlet weak var textField: UITextField!
     

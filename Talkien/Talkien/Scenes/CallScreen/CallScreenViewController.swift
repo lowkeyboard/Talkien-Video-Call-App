@@ -6,6 +6,8 @@ final class CallScreenViewController: UIViewController, CallScreenViewProtocol {
     
     
     
+    @IBOutlet weak var TheChannelName: UILabel!
+    
     @IBOutlet weak var ExitCallButton: UIButton!
     @IBOutlet weak var SendOfferButton: UIButton!
     
@@ -15,6 +17,7 @@ final class CallScreenViewController: UIViewController, CallScreenViewProtocol {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        TheChannelName.text = "Channel: \(NameProvider.sharedInstance.channel_name)"
         presenter.load() 
     }
 
@@ -26,6 +29,7 @@ final class CallScreenViewController: UIViewController, CallScreenViewProtocol {
     @IBAction func ExitCallPressed(_ sender: Any) {
         presenter.endCall()
         vc.dismiss(animated: true, completion: nil)
+        navigationController?.popToRootViewController(animated: true)
     }
     
     

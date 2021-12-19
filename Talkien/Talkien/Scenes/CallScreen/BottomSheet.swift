@@ -26,26 +26,27 @@ class BottomSheetViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    var bRec:Bool = true
     
-    @IBOutlet weak var btnRec: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+//        let imageName = "peer-to-peer" //64
+        let imageName = "wifi-connection" //256
+        let image = UIImage(named: imageName)
+        let imageView = UIImageView(image: image!)
+
+        imageView.frame = CGRect(x: UIScreen.main.bounds.size.width*0.4,
+                                 y: UIScreen.main.bounds.size.height*0.2,
+                                 width: 256, height: 256)
         
+        view.addSubview(imageView)
+
         
     }
     
-    @IBAction func btnRec(_ sender: Any) {
-        bRec = !bRec
-        if bRec {
-            btnRec.setImage(UIImage(named: "mic-on.png"), for: .normal)
-        } else {
-            btnRec.setImage(UIImage(named: "mic-off.png"), for: .normal)
-        }
-    }
+    
 
     
 }

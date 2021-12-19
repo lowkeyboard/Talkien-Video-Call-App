@@ -31,7 +31,7 @@
 		97BE88A8589DEC10028C325D /* Pods_Talkien.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A733D5B597912379C279BA3 /* Pods_Talkien.framework */; };
 		A2350613276A9C22001DC401 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A2350612276A9C22001DC401 /* GoogleService-Info.plist */; };
 		A23A6AB9276E2EA6001AFD8E /* BottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23A6AB8276E2EA6001AFD8E /* BottomSheet.swift */; };
-		A23DB89B276F5929006DE1F1 /* ChannelProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23DB89A276F5929006DE1F1 /* ChannelProvider.swift */; };
+		A23DB89B276F5929006DE1F1 /* NameProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23DB89A276F5929006DE1F1 /* NameProvider.swift */; };
 		A24F7623276BB56700E6E8F2 /* CallScreenInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A24F7622276BB56700E6E8F2 /* CallScreenInteractor.swift */; };
 /* End PBXBuildFile section */
 
@@ -76,7 +76,7 @@
 		98D3E586CFD2E5FA97CBFA7B /* Pods-Talkien.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Talkien.debug.xcconfig"; path = "Target Support Files/Pods-Talkien/Pods-Talkien.debug.xcconfig"; sourceTree = "<group>"; };
 		A2350612276A9C22001DC401 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A23A6AB8276E2EA6001AFD8E /* BottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheet.swift; sourceTree = "<group>"; };
-		A23DB89A276F5929006DE1F1 /* ChannelProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelProvider.swift; sourceTree = "<group>"; };
+		A23DB89A276F5929006DE1F1 /* NameProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameProvider.swift; sourceTree = "<group>"; };
 		A24F7622276BB56700E6E8F2 /* CallScreenInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallScreenInteractor.swift; sourceTree = "<group>"; };
 		A6303375AA5C56A1D5FD6FD7 /* Pods-Talkien.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Talkien.release.xcconfig"; path = "Target Support Files/Pods-Talkien/Pods-Talkien.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -155,7 +155,7 @@
 				36C25D5721B2B7B300A30C1B /* AppDelegate.swift */,
 				36C25D7A21B2B82C00A30C1B /* AppContainer.swift */,
 				36C25D7C21B2B83C00A30C1B /* AppRouter.swift */,
-				A23DB89A276F5929006DE1F1 /* ChannelProvider.swift */,
+				A23DB89A276F5929006DE1F1 /* NameProvider.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -369,7 +369,7 @@
 				36C25DEA21B45E2300A30C1B /* MainScreenRouter.swift in Sources */,
 				36C25D5821B2B7B300A30C1B /* AppDelegate.swift in Sources */,
 				36C25D9621B2BB0F00A30C1B /* MainScreenViewController.swift in Sources */,
-				A23DB89B276F5929006DE1F1 /* ChannelProvider.swift in Sources */,
+				A23DB89B276F5929006DE1F1 /* NameProvider.swift in Sources */,
 				A23A6AB9276E2EA6001AFD8E /* BottomSheet.swift in Sources */,
 				36C25DDE21B45DDA00A30C1B /* CallScreenBuilder.swift in Sources */,
 				36C25D8B21B2BA2800A30C1B /* MovieDetailPresentation.swift in Sources */,
