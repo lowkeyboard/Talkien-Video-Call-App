@@ -26,12 +26,26 @@ class BottomSheetViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    var bRec:Bool = true
+    
+    @IBOutlet weak var btnRec: UIButton!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-
+        
         
     }
+    
+    @IBAction func btnRec(_ sender: Any) {
+        bRec = !bRec
+        if bRec {
+            btnRec.setImage(UIImage(named: "mic-on.png"), for: .normal)
+        } else {
+            btnRec.setImage(UIImage(named: "mic-off.png"), for: .normal)
+        }
+    }
+
     
 }

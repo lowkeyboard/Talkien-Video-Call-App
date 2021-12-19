@@ -18,25 +18,16 @@ class CallScreenInteractor: NSObject, CallScreenInteractorProtocol {
     var peerConnectionFactory: RTCPeerConnectionFactory! = nil
     var peerConnection: RTCPeerConnection! = nil
     var audioSource: RTCAudioSource?
-    var videoSource: RTCCameraVideoCapturer?
+    var Source: RTCCameraVideoCapturer?
 
     var observerSignalRef: DatabaseReference? = nil
     var offerSignalRef: DatabaseReference? = nil
     
-    var sender: Int = 1
-    var receiver: Int = 2
+
+    var sender = NameProvider.sharedInstance.user_name
+    var receiver = NameProvider.sharedInstance.channel_name
 
     
-    
-    deinit {
-        if peerConnection != nil {
-            hangUp()
-        }
-        audioSource = nil
-        peerConnectionFactory = nil
-    }
-    
-
     func loadInteractor() {
         self.peerConnectionFactory = RTCPeerConnectionFactory()
         
@@ -49,6 +40,8 @@ class CallScreenInteractor: NSObject, CallScreenInteractorProtocol {
     
     func setupFirebase() {
         
+        // https://ttalkien-default-rtdb.firebaseio.com/Call/
+        
         self.observerSignalRef = Database.database().reference().child("Call/\(receiver)")
         self.offerSignalRef = Database.database().reference().child("Call/\(sender)")
         
@@ -57,6 +50,15 @@ class CallScreenInteractor: NSObject, CallScreenInteractorProtocol {
     }
     
     
+    deinit {
+        if peerConnection != nil {
+            hangUp()
+        }
+        audioSource = nil
+        peerConnectionFactory = nil
+    }
+    
+
     //retrieving from database snapsohot
     func observerSignal() {
         
@@ -101,17 +103,11 @@ class CallScreenInteractor: NSObject, CallScreenInteractorProtocol {
     }
     
     
-
-    
     func startRTCPeerConn() { //only audio
         let audioSourceConstraints = RTCMediaConstraints(mandatoryConstraints: nil, optionalConstraints: nil)
         audioSource = peerConnectionFactory.audioSource(with: audioSourceConstraints)
 
     }
-    
-
-
-    
     
     func prepareNewConnection() -> RTCPeerConnection {
         let configuration = RTCConfiguration()
@@ -129,9 +125,6 @@ class CallScreenInteractor: NSObject, CallScreenInteractorProtocol {
         let audioSender = peerConnection.sender(withKind: kRTCMediaStreamTrackKindAudio, streamId: "REMOTE_AUDIO_TRACK")
         audioSender.track = localAudioTrack
         
-
-        
-   
         
         return peerConnection
     }

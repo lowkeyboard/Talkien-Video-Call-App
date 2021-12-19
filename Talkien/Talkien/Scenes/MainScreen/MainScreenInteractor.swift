@@ -14,7 +14,7 @@ final class MainScreenInteractor: NSObject,  MainScreenInteractorProtocol {
     weak var delegate: MainScreenInteractorDelegate?
 
     
-    // mic + cam
+
     func giveMicPermission() {
         switch AVAudioSession.sharedInstance().recordPermission {
         case .granted:
