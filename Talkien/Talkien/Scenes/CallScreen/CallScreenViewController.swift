@@ -1,14 +1,10 @@
 
 
 import UIKit
-import WebRTC.RTCEAGLVideoView
-import WebRTC.RTCCameraPreviewView
 
 final class CallScreenViewController: UIViewController, CallScreenViewProtocol {
     
     
-    @IBOutlet weak var localVideoView: RTCCameraPreviewView!
-    @IBOutlet weak var remoteVideoView: RTCEAGLVideoView!
     
     @IBOutlet weak var ExitCallButton: UIButton! //rename
     @IBOutlet weak var SendOfferButton: UIButton!
