@@ -95,6 +95,7 @@ This is an example of how to list things you need to use the software and how to
 
 After typing the name of the caller and callee in the first page, press to "send offer" button to send offer to Firebase,
 wait for callee to do the same and after signalling has completed, voice call connection will be established.
+In order to end the call simply press to End Call button and you will be redirected to the first page.
 
 _For more examples, please refer to the [Documentation](https://webrtc.googlesource.com/src/+/refs/heads/main/examples/objc/AppRTCMobile)_
 
