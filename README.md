@@ -77,10 +77,9 @@ This is an example of how to list things you need to use the software and how to
   pod init
   ```
 - Firebase
-
-```
+  ```
   Make sure to enable Firebase Real Time Database's read/write permissions to exchange signalling.
-```
+  ```
 
 ### Installation
 
