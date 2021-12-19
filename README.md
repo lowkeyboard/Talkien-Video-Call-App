@@ -1,5 +1,5 @@
 # Talkien_Voice_Call_App
-A simple WebRTC Implementation with Viper architecture and Firebase as signalling server.
+A simple WebRTC Implementation with Viper architecture and Firebase as signalling server written in Swift 5.
 
 <div id="top"></div>
 
@@ -12,12 +12,6 @@ A simple WebRTC Implementation with Viper architecture and Firebase as signallin
   <a href="https://github.com/lowkeyboard/Talkien_Voice_Call_App">
     <img src="Talkien/logo.png" alt="Logo" width="200" height="150">
   </a>
-
-<h3 align="center">Talkien</h3>
-
-  <p align="center">
-    Google WebRTC and Firebase powered voice calling mobile app to connect with peers written in Swift 5.
-  </p>
 </div>
 
 <!-- TABLE OF CONTENTS -->
