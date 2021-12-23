@@ -31,6 +31,10 @@ final class MainScreenPresenter: MainScreenPresenterProtocol {
         
     }
     
+    func getVideoPermission() {
+        interactor.getVideoPermission()
+    }
+    
     
     
     

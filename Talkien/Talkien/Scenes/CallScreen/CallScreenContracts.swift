@@ -1,10 +1,12 @@
-
+import UIKit
+import WebRTC.RTCEAGLVideoView
 // MARK: - Presenter
 
 protocol CallScreenPresenterProtocol {
     func load()
     func connectToUser()
     func endCall()
+    func presentView()
 }
 
 enum CallScreenPresenterOutput: Equatable {
@@ -16,7 +18,8 @@ enum CallScreenPresenterOutput: Equatable {
 // MARK: - View
 protocol CallScreenViewProtocol: AnyObject {
     func handleOutput(_ output: CallScreenPresenterOutput)
-
+    func getLocalView()  -> RTCCameraPreviewView
+    func getRemoteView ()  -> RTCEAGLVideoView
 }
 
 // MARK: - Interactor
@@ -24,11 +27,11 @@ protocol CallScreenViewProtocol: AnyObject {
 protocol CallScreenInteractorProtocol: AnyObject {
     var delegate: CallScreenInteractorDelegate? { get set }
 
-    
-    //bunlar diger sayfanin interactoru olcak.
     func startRTCPeerConn()
     func loadInteractor()
     func sendOffer()
+    func setRemoteView(remoteView: RTCEAGLVideoView)
+    func setLocalView(localView: RTCCameraPreviewView)
     func hangUp()
 }
 

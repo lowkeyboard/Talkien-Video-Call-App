@@ -1,10 +1,21 @@
 
 
 import UIKit
+import WebRTC.RTCEAGLVideoView
 
 final class CallScreenViewController: UIViewController, CallScreenViewProtocol {
+    func getLocalView() -> RTCCameraPreviewView {
+        return LocalView
+    }
+    
+    func getRemoteView() -> RTCEAGLVideoView {
+        return RemoteView
+    }
     
     
+    
+    @IBOutlet weak var RemoteView: RTCEAGLVideoView!
+    @IBOutlet weak var LocalView: RTCCameraPreviewView!
     
     @IBOutlet weak var TheChannelName: UILabel!
     
@@ -18,7 +29,8 @@ final class CallScreenViewController: UIViewController, CallScreenViewProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         TheChannelName.text = "Channel: \(NameProvider.sharedInstance.channel_name)"
-        presenter.load() 
+        presenter.load()
+        presenter.presentView()
     }
 
     func handleOutput(_ output: CallScreenPresenterOutput) {

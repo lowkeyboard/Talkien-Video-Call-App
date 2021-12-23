@@ -10,6 +10,7 @@ import WebRTC
 import FirebaseDatabase
 import SwiftyJSON
 
+
 class CallScreenInteractor: NSObject, CallScreenInteractorProtocol {
     
     weak var delegate: CallScreenInteractorDelegate?
@@ -18,8 +19,14 @@ class CallScreenInteractor: NSObject, CallScreenInteractorProtocol {
     var peerConnectionFactory: RTCPeerConnectionFactory! = nil
     var peerConnection: RTCPeerConnection! = nil
     var audioSource: RTCAudioSource?
+    var videoSource: RTCVideoSource?
     var Source: RTCCameraVideoCapturer?
-
+    
+    var video_rtc: RTCVideoRenderer?
+    
+    var remote_rtc: RTCEAGLVideoView?
+    var local_rtc: RTCCameraPreviewView?
+    
     var observerSignalRef: DatabaseReference? = nil
     var offerSignalRef: DatabaseReference? = nil
     
@@ -55,6 +62,7 @@ class CallScreenInteractor: NSObject, CallScreenInteractorProtocol {
             hangUp()
         }
         audioSource = nil
+        videoSource = nil
         peerConnectionFactory = nil
     }
     
@@ -103,10 +111,13 @@ class CallScreenInteractor: NSObject, CallScreenInteractorProtocol {
     }
     
     
-    func startRTCPeerConn() { //only audio
+    func startRTCPeerConn() { //both audio and video
         let audioSourceConstraints = RTCMediaConstraints(mandatoryConstraints: nil, optionalConstraints: nil)
         audioSource = peerConnectionFactory.audioSource(with: audioSourceConstraints)
-
+        
+        let videoSourceConstraints = RTCMediaConstraints(mandatoryConstraints: nil, optionalConstraints: nil)
+        videoSource = peerConnectionFactory.videoSource()
+        
     }
     
     func prepareNewConnection() -> RTCPeerConnection {
@@ -125,6 +136,10 @@ class CallScreenInteractor: NSObject, CallScreenInteractorProtocol {
         let audioSender = peerConnection.sender(withKind: kRTCMediaStreamTrackKindAudio, streamId: "REMOTE_AUDIO_TRACK")
         audioSender.track = localAudioTrack
         
+        let localMediaTrack = peerConnectionFactory.videoTrack(with: videoSource!, trackId: "LOCAL_VIDEO_TRACK")
+        let videoSender = peerConnection.sender(withKind: kRTCMediaStreamTrackKindVideo, streamId: "LOCAL_VIDEO_TRACK")
+        videoSender.track = localMediaTrack
+        
         
         return peerConnection
     }
@@ -135,8 +150,13 @@ class CallScreenInteractor: NSObject, CallScreenInteractorProtocol {
         
         peerConnection = prepareNewConnection()
         
-        let constraints = RTCMediaConstraints(mandatoryConstraints: ["OfferToReceiveAudio": "true", "OfferToReceiveVideo": "true"],
-                                              optionalConstraints: nil)
+        let constraints = RTCMediaConstraints(mandatoryConstraints:
+            [
+            "OfferToReceiveAudio": "true",
+            "OfferToReceiveVideo": "true"],
+    
+            optionalConstraints: nil)
+        
         let offerCompletion = { (offer: RTCSessionDescription?, error: Error?) in
             
             if error != nil { return }
@@ -243,7 +263,6 @@ class CallScreenInteractor: NSObject, CallScreenInteractorProtocol {
     }
     
     
-    
     func hangUp() {
         if peerConnection != nil {
             if peerConnection.iceConnectionState != RTCIceConnectionState.closed {
@@ -264,16 +283,40 @@ class CallScreenInteractor: NSObject, CallScreenInteractorProtocol {
         }
     }
     
+    func setRemoteView(remoteView: RTCEAGLVideoView) {
+        self.remote_rtc = remoteView
+    }
+    
+    func setLocalView(localView: RTCCameraPreviewView){
+        
+        if let frame = self.local_rtc?.frame {
+            let rtcVideoView = RTCCameraPreviewView.init(frame: CGRect.init())
+            print("frame isnt empty")
+            rtcVideoView.frame = frame
+            rtcVideoView.frame.origin.x = 0
+            rtcVideoView.frame.origin.y = 0
+            localView.captureSession.startRunning()
+            localView.addSubview(rtcVideoView)
+            self.local_rtc = localView
+
+        } else {
+            print("frame is empty")
+
+        }
+        
+    }
     
     
 }
 
 
-
-
-
 // MARK: - Peer Connection
-extension CallScreenInteractor: RTCPeerConnectionDelegate {
+extension CallScreenInteractor: RTCPeerConnectionDelegate, RTCVideoViewDelegate {
+    func videoView(_ videoView: RTCVideoRenderer, didChangeVideoSize size: CGSize) {
+//        videoView.setSize(.init(width: 100, height: 100))
+    
+    }
+    
 
     func peerConnection(_ peerConnection: RTCPeerConnection, didChange stateChanged: RTCSignalingState) {
         print("\(#function)")
@@ -281,7 +324,13 @@ extension CallScreenInteractor: RTCPeerConnectionDelegate {
     
     
     func peerConnection(_ peerConnection: RTCPeerConnection, didAdd stream: RTCMediaStream) {
-        print("-- peer.onaddstream()")
+        print("didAdd stream")
+        if stream.videoTracks.count > 0 {
+            print("got video track")
+            print(stream.videoTracks[0].isEnabled) //true geldi
+//            stream.videoTracks[0].add(self.video_rtc!) empty 
+        }
+        
     }
     
     
@@ -289,6 +338,7 @@ extension CallScreenInteractor: RTCPeerConnectionDelegate {
     }
     
     
+    ///** Called when negotiation is needed, for example ICE has restarted. */
     func peerConnectionShouldNegotiate(_ peerConnection: RTCPeerConnection) {
     }
     

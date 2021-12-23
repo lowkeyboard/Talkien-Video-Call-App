@@ -18,6 +18,7 @@ final class MainScreenViewController: UIViewController, MainScreenViewProtocol {
         
         self.hideKeyboardWhenTappedAround()
         presenter.getMicPermission()
+        presenter.getVideoPermission()
     }
     
     // Call Button.
