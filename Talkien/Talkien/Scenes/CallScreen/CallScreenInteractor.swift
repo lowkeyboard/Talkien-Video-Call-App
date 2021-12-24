@@ -11,34 +11,59 @@ import FirebaseDatabase
 import SwiftyJSON
 
 
-class CallScreenInteractor: NSObject, CallScreenInteractorProtocol, RTCVideoCapturerDelegate {
+class CallScreenInteractor: NSObject, CallScreenInteractorProtocol, RTCDataChannelDelegate {
     
-    func capturer(_ capturer: RTCVideoCapturer, didCapture frame: RTCVideoFrame) {
-        if (myFrame != nil){
-            self.myFrame = frame
+    func dataChannelDidChangeState(_ dataChannel: RTCDataChannel) {
+        debugPrint("dataChannel did change state: \(dataChannel.readyState)")
 
-        }
+    }
+    
+    func dataChannel(_ dataChannel: RTCDataChannel, didReceiveMessageWith buffer: RTCDataBuffer) {
+        self.webRTCClient(self, didReceiveData: buffer.data)
+    }
+    
+    func startRTCPeerConn() {
+        
+    }
+    
+    func webRTCClient(_ client: CallScreenInteractor, didDiscoverLocalCandidate candidate: RTCIceCandidate) {
+        
+    }
+    
+    func webRTCClient(_ client: CallScreenInteractor, didChangeConnectionState state: RTCIceConnectionState) {
+        
+    }
+    
+    func webRTCClient(_ client: CallScreenInteractor, didReceiveData data: Data) {
+        
     }
     
     
+    // The `RTCPeerConnectionFactory` is in charge of creating new RTCPeerConnection instances.
+    // A new RTCPeerConnection should be created every new call, but the peerConnectionFactory is shared.
+     static let peerConnectionFactory: RTCPeerConnectionFactory = {
+        RTCInitializeSSL()
+        let videoEncoderFactory = RTCDefaultVideoEncoderFactory()
+        let videoDecoderFactory = RTCDefaultVideoDecoderFactory()
+        return RTCPeerConnectionFactory(encoderFactory: videoEncoderFactory, decoderFactory: videoDecoderFactory)
+    }()
+
+    
+    
     weak var delegate: CallScreenInteractorDelegate?
-
-    var myFrame: RTCVideoFrame?
  
-    var peerConnectionFactory: RTCPeerConnectionFactory! = nil
     var peerConnection: RTCPeerConnection! = nil
-    var videoSource: RTCVideoSource?
-    var Source: RTCCameraVideoCapturer?
-    
-    var renderer: RTCVideoRenderer?
-    var videoCapturer: RTCVideoCapturer?
-
-    var video_rtc: RTCVideoRenderer?
-
-    var remote_rtc: RTCEAGLVideoView?
-    var local_rtc: RTCCameraPreviewView?
-    
     var audioSource: RTCAudioSource?
+    let rtcAudioSession =  RTCAudioSession.sharedInstance()
+    let audioQueue = DispatchQueue(label: "audio")
+    let mediaConstrains = [kRTCMediaConstraintsOfferToReceiveAudio: kRTCMediaConstraintsValueTrue,
+                           kRTCMediaConstraintsOfferToReceiveVideo: kRTCMediaConstraintsValueTrue]
+    var videoCapturer: RTCVideoCapturer?
+    var localVideoTrack: RTCVideoTrack?
+    var remoteVideoTrack: RTCVideoTrack?
+    var localDataChannel: RTCDataChannel?
+    var remoteDataChannel: RTCDataChannel?
+
 
     var observerSignalRef: DatabaseReference? = nil
     var offerSignalRef: DatabaseReference? = nil
@@ -47,15 +72,9 @@ class CallScreenInteractor: NSObject, CallScreenInteractorProtocol, RTCVideoCapt
     var sender = NameProvider.sharedInstance.user_name
     var receiver = NameProvider.sharedInstance.channel_name
 
-    var captureSession: AVCaptureSession?
-
     
     func loadInteractor() {
-        self.peerConnectionFactory = RTCPeerConnectionFactory()
-        self.Source?.delegate = self
         
-        self.captureSession?.beginConfiguration()
-        self.captureSession?.startRunning()
         
         self.startRTCPeerConn()
         self.setupFirebase()
@@ -75,15 +94,106 @@ class CallScreenInteractor: NSObject, CallScreenInteractorProtocol, RTCVideoCapt
         self.observerSignal()
     }
     
-    
-    deinit {
-        if peerConnection != nil {
-            hangUp()
+    //MARK: Media --------------------------------------
+    func startCaptureLocalVideo(renderer: RTCVideoRenderer) {
+        guard let capturer = self.videoCapturer as? RTCCameraVideoCapturer else {
+            return
         }
-        audioSource = nil
-        videoSource = nil
-        peerConnectionFactory = nil
+
+        guard
+            let frontCamera = (RTCCameraVideoCapturer.captureDevices().first { $0.position == .front }),
+        
+            // choose highest res
+            let format = (RTCCameraVideoCapturer.supportedFormats(for: frontCamera).sorted { (f1, f2) -> Bool in
+                let width1 = CMVideoFormatDescriptionGetDimensions(f1.formatDescription).width
+                let width2 = CMVideoFormatDescriptionGetDimensions(f2.formatDescription).width
+                return width1 < width2
+            }).last,
+        
+            // choose highest fps
+            let fps = (format.videoSupportedFrameRateRanges.sorted { return $0.maxFrameRate < $1.maxFrameRate }.last) else {
+            return
+        }
+
+        capturer.startCapture(with: frontCamera,
+                              format: format,
+                              fps: Int(fps.maxFrameRate))
+        
+        self.localVideoTrack?.add(renderer)
     }
+    
+    func renderRemoteVideo(to renderer: RTCVideoRenderer) {
+        self.remoteVideoTrack?.add(renderer)
+    }
+    
+    private func configureAudioSession() {
+        self.rtcAudioSession.lockForConfiguration()
+        do {
+            try self.rtcAudioSession.setCategory(AVAudioSession.Category.playAndRecord.rawValue)
+            try self.rtcAudioSession.setMode(AVAudioSession.Mode.voiceChat.rawValue)
+        } catch let error {
+            debugPrint("Error changeing AVAudioSession category: \(error)")
+        }
+        self.rtcAudioSession.unlockForConfiguration()
+    }
+    
+    private func createMediaSenders() {
+        let streamId = "stream"
+        
+        // Audio
+        let audioTrack = self.createAudioTrack()
+        self.peerConnection.add(audioTrack, streamIds: [streamId])
+        
+        // Video
+        let videoTrack = self.createVideoTrack()
+        self.localVideoTrack = videoTrack
+        self.peerConnection.add(videoTrack, streamIds: [streamId])
+        self.remoteVideoTrack = self.peerConnection.transceivers.first { $0.mediaType == .video }?.receiver.track as? RTCVideoTrack
+        
+        // Data
+        if let dataChannel = createDataChannel() {
+            dataChannel.delegate = self
+            self.localDataChannel = dataChannel
+        }
+    }
+    
+    private func createAudioTrack() -> RTCAudioTrack {
+        let audioConstrains = RTCMediaConstraints(mandatoryConstraints: nil, optionalConstraints: nil)
+        let audioSource = Talkien.CallScreenInteractor.peerConnectionFactory.audioSource(with: audioConstrains)
+        let audioTrack = Talkien.CallScreenInteractor.peerConnectionFactory.audioTrack(with: audioSource, trackId: "audio0")
+        return audioTrack
+    }
+    
+    private func createVideoTrack() -> RTCVideoTrack {
+        let videoSource = Talkien.CallScreenInteractor.peerConnectionFactory.videoSource()
+        
+        #if TARGET_OS_SIMULATOR
+        self.videoCapturer = RTCFileVideoCapturer(delegate: videoSource)
+        #else
+        self.videoCapturer = RTCCameraVideoCapturer(delegate: videoSource)
+        #endif
+        
+        let videoTrack = Talkien.CallScreenInteractor.peerConnectionFactory.videoTrack(with: videoSource, trackId: "video0")
+        return videoTrack
+    }
+    
+    // MARK: Data Channels
+    private func createDataChannel() -> RTCDataChannel? {
+        let config = RTCDataChannelConfiguration()
+        guard let dataChannel = self.peerConnection.dataChannel(forLabel: "WebRTCData", configuration: config) else {
+            debugPrint("Warning: Couldn't create data channel.")
+            return nil
+        }
+        return dataChannel
+    }
+    
+    func sendData(_ data: Data) {
+        let buffer = RTCDataBuffer(data: data, isBinary: true)
+        self.remoteDataChannel?.sendData(buffer)
+    }
+    //MARK: Media --------------------------------------
+    
+    
     
 
     //retrieving from database snapsohot
@@ -129,60 +239,42 @@ class CallScreenInteractor: NSObject, CallScreenInteractorProtocol, RTCVideoCapt
         
     }
     
-    
-    func startRTCPeerConn() { //both audio and video
-        let audioSourceConstraints = RTCMediaConstraints(mandatoryConstraints: nil, optionalConstraints: nil)
-        audioSource = peerConnectionFactory.audioSource(with: audioSourceConstraints)
-  
-//        let videoSourceConstraints = RTCMediaConstraints(mandatoryConstraints: nil, optionalConstraints: nil)
-        videoSource = peerConnectionFactory.videoSource()
-        
-        if let myvideoCapturer = videoCapturer, let myframe = myFrame  {
-            videoSource?.capturer(myvideoCapturer, didCapture: myframe)
-            
-        } else {
-            print("videoCapturer is nil.")
-        }
-        
-    }
-    
-
-    
     func prepareNewConnection() -> RTCPeerConnection {
         let configuration = RTCConfiguration()
         configuration.iceServers = [RTCIceServer.init(urlStrings: ["stun:stun.l.google.com:19302",
                                                                    "stun:stun2.l.google.com:19302",
                                                                    "stun:stun3.l.google.com:19302",
                                                                    "stun:stun4.l.google.com:19302"])]
+        let constraints = RTCMediaConstraints(mandatoryConstraints:[
+                                              "OfferToReceiveAudio": "true",
+                                              "OfferToReceiveVideo": "true"],
+                                              optionalConstraints: ["DtlsSrtpKeyAgreement":kRTCMediaConstraintsValueTrue])
         
-        let peerConnectionConstraints = RTCMediaConstraints(
-            mandatoryConstraints: nil, optionalConstraints: nil)
+        self.peerConnection = Talkien.CallScreenInteractor.peerConnectionFactory.peerConnection(with: configuration, constraints: constraints, delegate: nil)
 
-        let peerConnection = peerConnectionFactory.peerConnection(with: configuration, constraints: peerConnectionConstraints, delegate: self)
-        
-        let localAudioTrack = peerConnectionFactory.audioTrack(with: audioSource!, trackId: "LOCAL_AUDIO_TRACK")
-        let audioSender = peerConnection.sender(withKind: kRTCMediaStreamTrackKindAudio, streamId: "REMOTE_AUDIO_TRACK")
-        audioSender.track = localAudioTrack
-        
-        let localMediaTrack = peerConnectionFactory.videoTrack(with: videoSource!, trackId: "LOCAL_VIDEO_TRACK")
-        let videoSender = peerConnection.sender(withKind: kRTCMediaStreamTrackKindVideo, streamId: "LOCAL_VIDEO_TRACK")
-        videoSender.track = localMediaTrack
-        
         return peerConnection
     }
     
 
-    
     func sendOffer() {
         
-        peerConnection = prepareNewConnection()
+        let configuration = RTCConfiguration()
+        configuration.iceServers = [RTCIceServer.init(urlStrings: ["stun:stun.l.google.com:19302",
+                                                                   "stun:stun2.l.google.com:19302",
+                                                                   "stun:stun3.l.google.com:19302",
+                                                                   "stun:stun4.l.google.com:19302"])]
         
-        let constraints = RTCMediaConstraints(mandatoryConstraints:
-            [
-            "OfferToReceiveAudio": "true",
-            "OfferToReceiveVideo": "true"],
-    
-            optionalConstraints: nil)
+        let constraints = RTCMediaConstraints(mandatoryConstraints:[
+                                              "OfferToReceiveAudio": "true",
+                                              "OfferToReceiveVideo": "true"],
+                                              optionalConstraints: ["DtlsSrtpKeyAgreement":kRTCMediaConstraintsValueTrue])
+        
+        self.peerConnection = Talkien.CallScreenInteractor.peerConnectionFactory.peerConnection(with: configuration, constraints: constraints, delegate: nil)
+        
+        self.createMediaSenders()
+        self.configureAudioSession()
+        self.peerConnection.delegate = self
+
         
         let offerCompletion = { (offer: RTCSessionDescription?, error: Error?) in
             
@@ -310,15 +402,7 @@ class CallScreenInteractor: NSObject, CallScreenInteractorProtocol, RTCVideoCapt
         }
     }
     
-    func setRemoteView(remoteView: RTCEAGLVideoView) {
-        self.remote_rtc = remoteView
-    }
-    
-    func setLocalView(localView: RTCCameraPreviewView){
-        self.local_rtc = localView
-        
-    }
-    
+
     
 }
 
@@ -326,8 +410,6 @@ class CallScreenInteractor: NSObject, CallScreenInteractorProtocol, RTCVideoCapt
 // MARK: - Peer Connection
 extension CallScreenInteractor: RTCPeerConnectionDelegate, RTCVideoViewDelegate {
     func videoView(_ videoView: RTCVideoRenderer, didChangeVideoSize size: CGSize) {
-//        videoView.setSize(.init(width: 100, height: 100))
-        self.video_rtc = videoView
     
     }
     
@@ -343,31 +425,6 @@ extension CallScreenInteractor: RTCPeerConnectionDelegate, RTCVideoViewDelegate 
             print("got video track")
             print(stream.videoTracks[0].isEnabled) //true geldi
             
-            videoSource = peerConnectionFactory.videoSource()
-            if let myvideortc = self.video_rtc {
-                stream.videoTracks[0].add(myvideortc)
-
-            }
-
-            
-//            stream.videoTracks[0].add(self.video_rtc!) empty
-            // localVideoSource and videoCapturer will use
-//            self.videoSource = self.peerConnectionFactory!.videoSource()
-//              videoCapturer = RTCVideoCapturer()
-//      //      localVideoSource.capturer(videoCapturer, didCapture: videoFrame!)
-//
-//            if let videoTrack : RTCVideoTrack = self.peerConnectionFactory?.videoTrack(with: videoSource!, trackId: "LOCAL_VIDEO_TRACK") {
-//            if let mediaStream: RTCMediaStream = (self.peerConnectionFactory?.mediaStream(withStreamId: "LOCAL_VIDEO_STREAM")) {
-//                stream.addVideoTrack(videoTrack)
-//                mediaStream.addVideoTrack(videoTrack)
-//                self.peerConnection.add(mediaStream)
-//
-//            } else {
-//
-//            }
-//            } else {
-//
-//            }
         }
         
     }

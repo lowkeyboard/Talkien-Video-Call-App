@@ -6,7 +6,6 @@ protocol CallScreenPresenterProtocol {
     func load()
     func connectToUser()
     func endCall()
-    func presentView()
 }
 
 enum CallScreenPresenterOutput: Equatable {
@@ -18,8 +17,7 @@ enum CallScreenPresenterOutput: Equatable {
 // MARK: - View
 protocol CallScreenViewProtocol: AnyObject {
     func handleOutput(_ output: CallScreenPresenterOutput)
-    func getLocalView()  -> RTCCameraPreviewView
-    func getRemoteView ()  -> RTCEAGLVideoView
+    func embedView(_ view: UIView, into containerView: UIView)
 }
 
 // MARK: - Interactor
@@ -30,9 +28,12 @@ protocol CallScreenInteractorProtocol: AnyObject {
     func startRTCPeerConn()
     func loadInteractor()
     func sendOffer()
-    func setRemoteView(remoteView: RTCEAGLVideoView)
-    func setLocalView(localView: RTCCameraPreviewView)
     func hangUp()
+    
+    func webRTCClient(_ client: CallScreenInteractor, didDiscoverLocalCandidate candidate: RTCIceCandidate)
+    func webRTCClient(_ client: CallScreenInteractor, didChangeConnectionState state: RTCIceConnectionState)
+    func webRTCClient(_ client: CallScreenInteractor, didReceiveData data: Data)
+
 }
 
 enum CallScreenInteractorOutput: Equatable {

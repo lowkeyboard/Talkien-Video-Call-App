@@ -1,8 +1,6 @@
 
 final class CallScreenPresenter: CallScreenPresenterProtocol, CallScreenInteractorDelegate {
 
-    
-    
     unowned var view: CallScreenViewProtocol
     private let interactor: CallScreenInteractorProtocol
 
@@ -22,10 +20,6 @@ final class CallScreenPresenter: CallScreenPresenterProtocol, CallScreenInteract
         interactor.sendOffer()
     }
     
-    func presentView() {
-        interactor.setLocalView(localView: view.getLocalView())
-        interactor.setRemoteView(remoteView: view.getRemoteView())
-    }
     func endCall() {
         interactor.hangUp()
     }

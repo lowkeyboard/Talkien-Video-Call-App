@@ -1,21 +1,14 @@
 
 
 import UIKit
-import WebRTC.RTCEAGLVideoView
+import WebRTC
 
 final class CallScreenViewController: UIViewController, CallScreenViewProtocol {
-    func getLocalView() -> RTCCameraPreviewView {
-        return LocalView
-    }
-    
-    func getRemoteView() -> RTCEAGLVideoView {
-        return RemoteView
-    }
+
     
     
     
-    @IBOutlet weak var RemoteView: RTCEAGLVideoView!
-    @IBOutlet weak var LocalView: RTCCameraPreviewView!
+    @IBOutlet weak var localVideoView: UIView!
     
     @IBOutlet weak var TheChannelName: UILabel!
     
@@ -24,14 +17,53 @@ final class CallScreenViewController: UIViewController, CallScreenViewProtocol {
     
     var presenter: CallScreenPresenterProtocol!
     
-    let vc = BottomSheetViewController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         TheChannelName.text = "Channel: \(NameProvider.sharedInstance.channel_name)"
         presenter.load()
-        presenter.presentView()
+        
+        #if arch(arm64)
+            // Using metal (arm64 only)
+            let localRenderer = RTCMTLVideoView(frame: self.localVideoView?.frame ?? CGRect.zero)
+            let remoteRenderer = RTCMTLVideoView(frame: self.view.frame)
+            localRenderer.videoContentMode = .scaleAspectFill
+            remoteRenderer.videoContentMode = .scaleAspectFill
+        #else
+            // Using OpenGLES for the rest
+            let localRenderer = RTCEAGLVideoView(frame: self.localVideoView?.frame ?? CGRect.zero)
+            let remoteRenderer = RTCEAGLVideoView(frame: self.view.frame)
+        #endif
+
+        self.webRTCClient.startCaptureLocalVideo(renderer: localRenderer)
+        self.webRTCClient.renderRemoteVideo(to: remoteRenderer)
+        
+        if let localVideoView = self.localVideoView {
+            self.embedView(localRenderer, into: localVideoView)
+        }
+        self.embedView(remoteRenderer, into: self.view)
+        self.view.sendSubviewToBack(remoteRenderer)
+
     }
+    
+    
+     func embedView(_ view: UIView, into containerView: UIView) {
+        containerView.addSubview(view)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        containerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[view]|",
+                                                                    options: [],
+                                                                    metrics: nil,
+                                                                    views: ["view":view]))
+        
+        containerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[view]|",
+                                                                    options: [],
+                                                                    metrics: nil,
+                                                                    views: ["view":view]))
+        containerView.layoutIfNeeded()
+    }
+
+    
+    
 
     func handleOutput(_ output: CallScreenPresenterOutput) {
         
@@ -40,28 +72,14 @@ final class CallScreenViewController: UIViewController, CallScreenViewProtocol {
     //rename as  joincall
     @IBAction func ExitCallPressed(_ sender: Any) {
         presenter.endCall()
-        vc.dismiss(animated: true, completion: nil)
         navigationController?.popToRootViewController(animated: true)
     }
     
     
     @IBAction func SendOfferPressed(_ sender: Any) {
         presenter.connectToUser()
-        
-        if #available(iOS 15.0, *) {
-            if let sheet = vc.sheetPresentationController {
-                sheet.detents = [.medium(), .large()]
-                sheet.largestUndimmedDetentIdentifier = .medium
-                sheet.prefersScrollingExpandsWhenScrolledToEdge = true
-                sheet.prefersGrabberVisible = true
-            
-            }
-        } else {
-            // Fallback on earlier versions
-        }
-        
-        self.present(vc, animated: true, completion: nil)
-
     }
     
+    
 }
+    
