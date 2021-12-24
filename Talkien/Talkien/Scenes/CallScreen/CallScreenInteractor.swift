@@ -11,22 +11,35 @@ import FirebaseDatabase
 import SwiftyJSON
 
 
-class CallScreenInteractor: NSObject, CallScreenInteractorProtocol {
+class CallScreenInteractor: NSObject, CallScreenInteractorProtocol, RTCVideoCapturerDelegate {
+    
+    func capturer(_ capturer: RTCVideoCapturer, didCapture frame: RTCVideoFrame) {
+        if (myFrame != nil){
+            self.myFrame = frame
+
+        }
+    }
+    
     
     weak var delegate: CallScreenInteractorDelegate?
 
+    var myFrame: RTCVideoFrame?
  
     var peerConnectionFactory: RTCPeerConnectionFactory! = nil
     var peerConnection: RTCPeerConnection! = nil
-    var audioSource: RTCAudioSource?
     var videoSource: RTCVideoSource?
     var Source: RTCCameraVideoCapturer?
     
+    var renderer: RTCVideoRenderer?
+    var videoCapturer: RTCVideoCapturer?
+
     var video_rtc: RTCVideoRenderer?
-    
+
     var remote_rtc: RTCEAGLVideoView?
     var local_rtc: RTCCameraPreviewView?
     
+    var audioSource: RTCAudioSource?
+
     var observerSignalRef: DatabaseReference? = nil
     var offerSignalRef: DatabaseReference? = nil
     
@@ -34,9 +47,15 @@ class CallScreenInteractor: NSObject, CallScreenInteractorProtocol {
     var sender = NameProvider.sharedInstance.user_name
     var receiver = NameProvider.sharedInstance.channel_name
 
+    var captureSession: AVCaptureSession?
+
     
     func loadInteractor() {
         self.peerConnectionFactory = RTCPeerConnectionFactory()
+        self.Source?.delegate = self
+        
+        self.captureSession?.beginConfiguration()
+        self.captureSession?.startRunning()
         
         self.startRTCPeerConn()
         self.setupFirebase()
@@ -114,11 +133,20 @@ class CallScreenInteractor: NSObject, CallScreenInteractorProtocol {
     func startRTCPeerConn() { //both audio and video
         let audioSourceConstraints = RTCMediaConstraints(mandatoryConstraints: nil, optionalConstraints: nil)
         audioSource = peerConnectionFactory.audioSource(with: audioSourceConstraints)
-        
-        let videoSourceConstraints = RTCMediaConstraints(mandatoryConstraints: nil, optionalConstraints: nil)
+  
+//        let videoSourceConstraints = RTCMediaConstraints(mandatoryConstraints: nil, optionalConstraints: nil)
         videoSource = peerConnectionFactory.videoSource()
         
+        if let myvideoCapturer = videoCapturer, let myframe = myFrame  {
+            videoSource?.capturer(myvideoCapturer, didCapture: myframe)
+            
+        } else {
+            print("videoCapturer is nil.")
+        }
+        
     }
+    
+
     
     func prepareNewConnection() -> RTCPeerConnection {
         let configuration = RTCConfiguration()
@@ -139,7 +167,6 @@ class CallScreenInteractor: NSObject, CallScreenInteractorProtocol {
         let localMediaTrack = peerConnectionFactory.videoTrack(with: videoSource!, trackId: "LOCAL_VIDEO_TRACK")
         let videoSender = peerConnection.sender(withKind: kRTCMediaStreamTrackKindVideo, streamId: "LOCAL_VIDEO_TRACK")
         videoSender.track = localMediaTrack
-        
         
         return peerConnection
     }
@@ -213,7 +240,7 @@ class CallScreenInteractor: NSObject, CallScreenInteractorProtocol {
 
         self.offerSignalRef?.setValue(message) { (error, ref) in
             if error != nil {
-                print("Dang sendIceCandidate -->> ", error.debugDescription)
+                print("sending IceCandidate -->> ", error.debugDescription)
             }
         }
     }
@@ -221,7 +248,7 @@ class CallScreenInteractor: NSObject, CallScreenInteractorProtocol {
     
     func setOffer(_ offer: RTCSessionDescription) {
         if peerConnection != nil {
-            print("peerConnection alreay exist!")
+            print("peerConnection has already exist!")
         }
         
         
@@ -239,7 +266,7 @@ class CallScreenInteractor: NSObject, CallScreenInteractorProtocol {
     
     func setAnswer(_ answer: RTCSessionDescription) {
         if peerConnection == nil {
-            print("peerConnection do not exist :(")
+            print("peerConnection do not exist")
             return
         }
         
@@ -288,21 +315,7 @@ class CallScreenInteractor: NSObject, CallScreenInteractorProtocol {
     }
     
     func setLocalView(localView: RTCCameraPreviewView){
-        
-        if let frame = self.local_rtc?.frame {
-            let rtcVideoView = RTCCameraPreviewView.init(frame: CGRect.init())
-            print("frame isnt empty")
-            rtcVideoView.frame = frame
-            rtcVideoView.frame.origin.x = 0
-            rtcVideoView.frame.origin.y = 0
-            localView.captureSession.startRunning()
-            localView.addSubview(rtcVideoView)
-            self.local_rtc = localView
-
-        } else {
-            print("frame is empty")
-
-        }
+        self.local_rtc = localView
         
     }
     
@@ -314,6 +327,7 @@ class CallScreenInteractor: NSObject, CallScreenInteractorProtocol {
 extension CallScreenInteractor: RTCPeerConnectionDelegate, RTCVideoViewDelegate {
     func videoView(_ videoView: RTCVideoRenderer, didChangeVideoSize size: CGSize) {
 //        videoView.setSize(.init(width: 100, height: 100))
+        self.video_rtc = videoView
     
     }
     
@@ -328,7 +342,32 @@ extension CallScreenInteractor: RTCPeerConnectionDelegate, RTCVideoViewDelegate 
         if stream.videoTracks.count > 0 {
             print("got video track")
             print(stream.videoTracks[0].isEnabled) //true geldi
-//            stream.videoTracks[0].add(self.video_rtc!) empty 
+            
+            videoSource = peerConnectionFactory.videoSource()
+            if let myvideortc = self.video_rtc {
+                stream.videoTracks[0].add(myvideortc)
+
+            }
+
+            
+//            stream.videoTracks[0].add(self.video_rtc!) empty
+            // localVideoSource and videoCapturer will use
+//            self.videoSource = self.peerConnectionFactory!.videoSource()
+//              videoCapturer = RTCVideoCapturer()
+//      //      localVideoSource.capturer(videoCapturer, didCapture: videoFrame!)
+//
+//            if let videoTrack : RTCVideoTrack = self.peerConnectionFactory?.videoTrack(with: videoSource!, trackId: "LOCAL_VIDEO_TRACK") {
+//            if let mediaStream: RTCMediaStream = (self.peerConnectionFactory?.mediaStream(withStreamId: "LOCAL_VIDEO_STREAM")) {
+//                stream.addVideoTrack(videoTrack)
+//                mediaStream.addVideoTrack(videoTrack)
+//                self.peerConnection.add(mediaStream)
+//
+//            } else {
+//
+//            }
+//            } else {
+//
+//            }
         }
         
     }

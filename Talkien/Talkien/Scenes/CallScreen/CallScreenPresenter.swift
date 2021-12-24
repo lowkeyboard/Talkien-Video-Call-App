@@ -22,13 +22,13 @@ final class CallScreenPresenter: CallScreenPresenterProtocol, CallScreenInteract
         interactor.sendOffer()
     }
     
-    func endCall() {
-        interactor.hangUp()
-    }
-
     func presentView() {
         interactor.setLocalView(localView: view.getLocalView())
         interactor.setRemoteView(remoteView: view.getRemoteView())
     }
+    func endCall() {
+        interactor.hangUp()
+    }
+
     
 }
