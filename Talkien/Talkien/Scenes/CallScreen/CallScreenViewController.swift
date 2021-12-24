@@ -35,8 +35,11 @@ final class CallScreenViewController: UIViewController, CallScreenViewProtocol {
             let remoteRenderer = RTCEAGLVideoView(frame: self.view.frame)
         #endif
 
-        self.webRTCClient.startCaptureLocalVideo(renderer: localRenderer)
-        self.webRTCClient.renderRemoteVideo(to: remoteRenderer)
+//        self.webRTCClient.startCaptureLocalVideo(renderer: localRenderer)
+//        self.webRTCClient.renderRemoteVideo(to: remoteRenderer)
+  
+        presenter._startCaptureLocalVideo(renderer: localRenderer)
+        presenter._renderRemoteVideo(to: remoteRenderer)
         
         if let localVideoView = self.localVideoView {
             self.embedView(localRenderer, into: localVideoView)

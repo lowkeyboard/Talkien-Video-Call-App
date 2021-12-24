@@ -1,3 +1,4 @@
+import WebRTC
 
 final class CallScreenPresenter: CallScreenPresenterProtocol, CallScreenInteractorDelegate {
 
@@ -22,6 +23,17 @@ final class CallScreenPresenter: CallScreenPresenterProtocol, CallScreenInteract
     
     func endCall() {
         interactor.hangUp()
+    }
+    
+    func _startCaptureLocalVideo(renderer: RTCVideoRenderer) {
+        
+        interactor.startCaptureLocalVideo(renderer: renderer)
+        
+    }
+    
+    
+    func _renderRemoteVideo(to renderer: RTCVideoRenderer) {
+        interactor.startCaptureLocalVideo(renderer: renderer)
     }
 
     

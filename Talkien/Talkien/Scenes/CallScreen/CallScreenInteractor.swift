@@ -249,7 +249,11 @@ class CallScreenInteractor: NSObject, CallScreenInteractorProtocol, RTCDataChann
                                               "OfferToReceiveAudio": "true",
                                               "OfferToReceiveVideo": "true"],
                                               optionalConstraints: ["DtlsSrtpKeyAgreement":kRTCMediaConstraintsValueTrue])
+        configuration.sdpSemantics = .unifiedPlan
         
+        // gatherContinually will let WebRTC to listen to any network changes and send any new candidates to the other client
+        configuration.continualGatheringPolicy = .gatherContinually
+
         self.peerConnection = Talkien.CallScreenInteractor.peerConnectionFactory.peerConnection(with: configuration, constraints: constraints, delegate: nil)
 
         return peerConnection
@@ -268,7 +272,11 @@ class CallScreenInteractor: NSObject, CallScreenInteractorProtocol, RTCDataChann
                                               "OfferToReceiveAudio": "true",
                                               "OfferToReceiveVideo": "true"],
                                               optionalConstraints: ["DtlsSrtpKeyAgreement":kRTCMediaConstraintsValueTrue])
+        configuration.sdpSemantics = .unifiedPlan
         
+        // gatherContinually will let WebRTC to listen to any network changes and send any new candidates to the other client
+        configuration.continualGatheringPolicy = .gatherContinually
+
         self.peerConnection = Talkien.CallScreenInteractor.peerConnectionFactory.peerConnection(with: configuration, constraints: constraints, delegate: nil)
         
         self.createMediaSenders()

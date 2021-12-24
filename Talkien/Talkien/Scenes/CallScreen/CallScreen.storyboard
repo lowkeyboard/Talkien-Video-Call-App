@@ -55,9 +55,9 @@
                     </view>
                     <connections>
                         <outlet property="ExitCallButton" destination="76k-gn-Z1Z" id="bjj-Eu-5ho"/>
-                        <outlet property="LocalView" destination="Kv7-aw-gWk" id="3fY-sb-OMi"/>
                         <outlet property="SendOfferButton" destination="9Ex-Q1-I6n" id="M8n-bu-GjL"/>
                         <outlet property="TheChannelName" destination="fRd-Ct-xu3" id="Anx-Hp-zps"/>
+                        <outlet property="localVideoView" destination="Kv7-aw-gWk" id="pYj-Ph-t2j"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CHQ-IQ-lhg" userLabel="First Responder" sceneMemberID="firstResponder"/>

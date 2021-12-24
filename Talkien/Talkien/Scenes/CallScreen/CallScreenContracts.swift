@@ -6,6 +6,10 @@ protocol CallScreenPresenterProtocol {
     func load()
     func connectToUser()
     func endCall()
+    
+    func _startCaptureLocalVideo(renderer: RTCVideoRenderer)
+    func _renderRemoteVideo(to renderer: RTCVideoRenderer)
+
 }
 
 enum CallScreenPresenterOutput: Equatable {
@@ -34,6 +38,10 @@ protocol CallScreenInteractorProtocol: AnyObject {
     func webRTCClient(_ client: CallScreenInteractor, didChangeConnectionState state: RTCIceConnectionState)
     func webRTCClient(_ client: CallScreenInteractor, didReceiveData data: Data)
 
+    func startCaptureLocalVideo(renderer: RTCVideoRenderer)
+    func renderRemoteVideo(to renderer: RTCVideoRenderer)
+    
+    
 }
 
 enum CallScreenInteractorOutput: Equatable {
