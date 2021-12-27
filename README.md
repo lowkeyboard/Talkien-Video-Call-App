@@ -41,7 +41,7 @@ A simple WebRTC Implementation with Viper architecture and Firebase as signallin
 
 ## About The Project
 
-![Alt Text](https://media.giphy.com/media/sAVf03gbOId35WEcD1/giphy.gif)
+![Alt Text](https://media.giphy.com/media/c9uFWnJmqPTP81jOhM/giphy.gif)
 
 The project uses Firebase Real Time Database as a service for WebRTC Signalling. After the exchange of keys, connection for voice call will be established.
 
