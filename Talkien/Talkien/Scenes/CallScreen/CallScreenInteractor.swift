@@ -75,8 +75,6 @@ class CallScreenInteractor: NSObject, CallScreenInteractorProtocol, RTCDataChann
     
     func loadInteractor() {
         
-        
-        self.startRTCPeerConn()
         self.setupFirebase()
         
         observerSignalRef = Database.database().reference()
@@ -400,7 +398,7 @@ class CallScreenInteractor: NSObject, CallScreenInteractorProtocol, RTCDataChann
                 print("sending close message")
                 let ref = Database.database().reference().child("Call/\(sender)")
                 ref.setValue(message) { (error, ref) in
-                    print("Dang send SDP Error -->> ", error.debugDescription)
+                    print(" send SDP Error -->> ", error.debugDescription)
                 }
                 
             }
@@ -418,7 +416,7 @@ class CallScreenInteractor: NSObject, CallScreenInteractorProtocol, RTCDataChann
 // MARK: - Peer Connection
 extension CallScreenInteractor: RTCPeerConnectionDelegate, RTCVideoViewDelegate {
     func videoView(_ videoView: RTCVideoRenderer, didChangeVideoSize size: CGSize) {
-    
+        print("\(#function)")
     }
     
 

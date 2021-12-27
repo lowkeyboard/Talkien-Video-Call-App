@@ -22,30 +22,6 @@ final class CallScreenViewController: UIViewController, CallScreenViewProtocol {
         super.viewDidLoad()
         TheChannelName.text = "Channel: \(NameProvider.sharedInstance.channel_name)"
         presenter.load()
-        
-        #if arch(arm64)
-            // Using metal (arm64 only)
-            let localRenderer = RTCMTLVideoView(frame: self.localVideoView?.frame ?? CGRect.zero)
-            let remoteRenderer = RTCMTLVideoView(frame: self.view.frame)
-            localRenderer.videoContentMode = .scaleAspectFill
-            remoteRenderer.videoContentMode = .scaleAspectFill
-        #else
-            // Using OpenGLES for the rest
-            let localRenderer = RTCEAGLVideoView(frame: self.localVideoView?.frame ?? CGRect.zero)
-            let remoteRenderer = RTCEAGLVideoView(frame: self.view.frame)
-        #endif
-
-//        self.webRTCClient.startCaptureLocalVideo(renderer: localRenderer)
-//        self.webRTCClient.renderRemoteVideo(to: remoteRenderer)
-  
-        presenter._startCaptureLocalVideo(renderer: localRenderer)
-        presenter._renderRemoteVideo(to: remoteRenderer)
-        
-        if let localVideoView = self.localVideoView {
-            self.embedView(localRenderer, into: localVideoView)
-        }
-        self.embedView(remoteRenderer, into: self.view)
-        self.view.sendSubviewToBack(remoteRenderer)
 
     }
     
@@ -81,6 +57,30 @@ final class CallScreenViewController: UIViewController, CallScreenViewProtocol {
     
     @IBAction func SendOfferPressed(_ sender: Any) {
         presenter.connectToUser()
+        
+        #if arch(arm64)
+            // Using metal (arm64 only)
+            let localRenderer = RTCMTLVideoView(frame: self.localVideoView?.frame ?? CGRect.zero)
+            let remoteRenderer = RTCMTLVideoView(frame: self.view.frame)
+            localRenderer.videoContentMode = .scaleAspectFill
+            remoteRenderer.videoContentMode = .scaleAspectFill
+        #else
+            // Using OpenGLES for the rest
+            let localRenderer = RTCEAGLVideoView(frame: self.localVideoView?.frame ?? CGRect.zero)
+            let remoteRenderer = RTCEAGLVideoView(frame: self.view.frame)
+        #endif
+
+//        self.webRTCClient.startCaptureLocalVideo(renderer: localRenderer)
+//        self.webRTCClient.renderRemoteVideo(to: remoteRenderer)
+  
+        presenter._startCaptureLocalVideo(renderer: localRenderer)
+        presenter._renderRemoteVideo(to: remoteRenderer)
+        
+        if let localVideoView = self.localVideoView {
+            self.embedView(localRenderer, into: localVideoView)
+        }
+        self.embedView(remoteRenderer, into: self.view)
+        self.view.sendSubviewToBack(remoteRenderer)
     }
     
     

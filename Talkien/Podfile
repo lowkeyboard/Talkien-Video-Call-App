@@ -1,6 +1,6 @@
 source 'https://cdn.cocoapods.org/'
 # Uncomment the next line to define a global platform for your project
- platform :ios, '12.1'
+ platform :ios, '10.3'
 
 target 'Talkien' do
   # Comment the next line if you don't want to use dynamic frameworks
@@ -8,7 +8,7 @@ target 'Talkien' do
 
   # Pods for Talkien
 
-    pod 'GoogleWebRTC'
+    pod 'GoogleWebRTC', '~> 1.1'
     pod 'Firebase/Core'
     pod 'Firebase/Auth'
     pod 'Firebase/Database'

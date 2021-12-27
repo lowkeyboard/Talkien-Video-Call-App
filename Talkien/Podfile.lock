@@ -115,7 +115,7 @@ DEPENDENCIES:
   - Firebase/Core
   - Firebase/Database
   - Firebase/Storage
-  - GoogleWebRTC
+  - GoogleWebRTC (~> 1.1)
   - SwiftyJSON
 
 SPEC REPOS:
@@ -157,6 +157,6 @@ SPEC CHECKSUMS:
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
   SwiftyJSON: 2f33a42c6fbc52764d96f13368585094bfd8aa5e
 
-PODFILE CHECKSUM: b3acb5c0877e4ae43eaa8c12a91e960021df51bb
+PODFILE CHECKSUM: 90ba20cda2d2d1e8636e345e263c865876290dcf
 
 COCOAPODS: 1.11.2
