@@ -11,7 +11,7 @@ A simple WebRTC Implementation with Viper architecture and Firebase as signallin
 <br />
 <div align="center">
   <a href="https://github.com/lowkeyboard/Talkien_Voice_Call_App">
-    <img src="logo.png" alt="Logo" width="200" height="150">
+    <img src="logo2.png" alt="Logo" width="200" height="150">
   </a>
 </div>
 
